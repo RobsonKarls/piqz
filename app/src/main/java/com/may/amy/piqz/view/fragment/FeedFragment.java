@@ -48,7 +48,7 @@ public class FeedFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
 
         SharedPreferences pref = getActivity().getSharedPreferences("AppPref", Context.MODE_PRIVATE);
         String token = "bearer "+ pref.getString("token", "");
-        mViewModel = new PostListViewModel(new NewsManager(), token);
+        mViewModel = new PostListViewModel(token);
         binding.setViewModel(mViewModel);
 
         binding.swipeLayout.setColorSchemeResources(R.color.colorAccent);

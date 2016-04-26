@@ -75,8 +75,8 @@ public class RestApi {
         call.enqueue(handler);
     }
 
-    public Call<NewsResponse> getNews(String after, String limit, Callback<NewsResponse> handler) {
-        return mRestHelper.listHot(after, limit);
+    public Call<NewsResponse> getNews(String subreddit, String after, String limit) {
+        return mRestHelper.listHot(subreddit, after, limit);
     }
     public Call<NewsResponse> getNews() {
         return mRestHelper.listHot();

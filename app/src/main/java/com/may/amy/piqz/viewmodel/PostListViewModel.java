@@ -13,12 +13,16 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.may.amy.piqz.model.ChildrenResponse;
 import com.may.amy.piqz.model.DataResponse;
 import com.may.amy.piqz.model.NewsManager;
 import com.may.amy.piqz.model.NewsItem;
 import com.may.amy.piqz.model.NewsResponse;
 import com.may.amy.piqz.model.RResponse;
+import com.may.amy.piqz.model.rest.DataReceivedInterface;
 import com.may.amy.piqz.view.adapter.PostAdapter;
 
 import java.io.IOException;
@@ -32,7 +36,7 @@ import retrofit2.Response;
 /**
  * Created by kuhnertj on 15.04.2016.
  */
-public class PostListViewModel {
+public class PostListViewModel implements DataReceivedInterface {
     private final NewsManager mNewsManager;
     private final String token;
     private Callback<NewsResponse> callback;
@@ -53,6 +57,18 @@ public class PostListViewModel {
             Glide.with(imageView.getContext()).load(url)
                     .placeholder(android.R.drawable.ic_menu_help)
                     .error(android.R.drawable.ic_menu_close_clear_cancel)
+                    .listener(new RequestListener<String, GlideDrawable>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                            e.printStackTrace();
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            return false;
+                        }
+                    })
                     .into(imageView);
 
         } else {
@@ -76,72 +92,15 @@ public class PostListViewModel {
     public PostListViewModel(final NewsManager newsManager, String token) {
         mNewsManager = newsManager;
         this.token = token;
-        rResponse = new RResponse();
-
-        //TODO: Das hat nichts im viewmodel zu suchen..
-        callback = new Callback<NewsResponse>() {
-            @Override
-            public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
-                if (response.isSuccessful()) {
-                    ArrayList<NewsItem> news = new ArrayList<>();
-                    for (ChildrenResponse childrenResponse : response.body().getData().getChildren()) {
-                        NewsItem item = childrenResponse.getData();
-                        if (item.getAuthor() != null && !item.getAuthor().equals("funny_mod")) {
-                            news.add(new NewsItem(item.getAuthor(), item.getTitle(),
-                                    item.getNumComments(), item.getCreated(), item.getThumbnail(), item.getUrl()));
-                            Log.d(NewsManager.class.getSimpleName(), "Title: " + item.getTitle());
-                        }
-                        if (item.getAuthor() == null) {
-                            Log.e(NewsManager.class.getSimpleName(), "Response items: getAuthor() returns is null");
-                            break;
-                        }
-                    }
-
-                    rResponse.setChildren(news);
-                    rResponse.setAfter(response.body().getData().getAfter());
-                    rResponse.setBefore(response.body().getData().getBefore());
-
-                    List<NewsItem> posts = new ArrayList<>();
-
-                    if (rResponse.getChildren() != null) {
-                        posts = rResponse.getChildren();
-                    }
-
-                    after = rResponse.getAfter();
-
-                    mSwipeRefreshLayoutRefreshing.set(false);
-                    mSwipeRefreshLayoutRefreshing.notifyChange();
-
-                    if (posts == null) {
-                        posts = new ArrayList<>();
-                    }
-                    if (posts.isEmpty()) {
-                        mPosts.clear();
-                        mEmptyViewVisibility.set(View.VISIBLE);
-                    } else {
-                        mEmptyViewVisibility.set(View.GONE);
-                        mPosts.addAll(posts);
-                    }
-
-
-                } else {
-                    Log.e(NewsManager.class.getSimpleName(), "Response not successful.");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<NewsResponse> call, Throwable t) {
-                Log.e(NewsManager.class.getSimpleName(), "Response failed: " + t.getMessage());
-            }
-        };
-
-
     }
 
     public PostListViewModel(NewsManager mNewsManager) {
         this(mNewsManager, "");
     }
-
+    public PostListViewModel(String token) {
+        mNewsManager = new NewsManager(this);
+        this.token = token;
+    }
     public ObservableBoolean getSwipeRefreshLayoutRefreshing() {
         return mSwipeRefreshLayoutRefreshing;
     }
@@ -168,11 +127,38 @@ public class PostListViewModel {
             @Override
             public void run() {
                 try {
-                    mNewsManager.getNews(token, after, "10", callback);
+                    mNewsManager.getNews(token, "funny", after, "10");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         });
+    }
+
+    @Override
+    public void updateData(RResponse rResponse) {
+        List<NewsItem> posts = new ArrayList<>();
+
+        if (rResponse.getChildren() != null) {
+            posts = rResponse.getChildren();
+        }
+
+        after = rResponse.getAfter();
+
+        mSwipeRefreshLayoutRefreshing.set(false);
+        mSwipeRefreshLayoutRefreshing.notifyChange();
+
+        if (posts == null) {
+            posts = new ArrayList<>();
+        }
+        if (posts.isEmpty()) {
+            mPosts.clear();
+            mEmptyViewVisibility.set(View.VISIBLE);
+        } else {
+            mEmptyViewVisibility.set(View.GONE);
+            mPosts.addAll(posts);
+        }
+
+
     }
 }
