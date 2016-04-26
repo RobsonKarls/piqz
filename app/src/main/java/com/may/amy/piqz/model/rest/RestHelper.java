@@ -17,7 +17,11 @@ public interface RestHelper {
                                @Query("after") String after,
                                @Query("limit") String limit);
 
-    @GET("/r/funny/hot.json")
+    @GET("/top.json")
     Call<NewsResponse> listHot(@Query("after") String after,
                                @Query("limit") String limit);
+
+    @GET("/top.json")
+    Call<NewsResponse> listHot();
+
 }

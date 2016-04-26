@@ -1,11 +1,28 @@
 package com.may.amy.piqz.model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by kuhnertj on 15.04.2016.
  */
 public class NewsItem {
-    private String author, title, thumbnail, url;
+
+    @SerializedName("author")
+    private String author;
+
+    @SerializedName("title")
+    private String title;
+
+    @SerializedName("thumbnail")
+    private String thumbnail;
+
+    @SerializedName("url")
+    private String url;
+
+    @SerializedName("num_comments")
     private int numComments;
+
+    @SerializedName("created_utc")
     private long created;
 
     public NewsItem(String author, String title, int numComments, long created, String thumbnail, String url) {

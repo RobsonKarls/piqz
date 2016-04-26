@@ -5,26 +5,26 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * Created by kuhnertj on 15.04.2016.
+ * Created by kuhnertj on 26.04.2016.
  */
-public class DataResponse {
+public class RResponse {
     @SerializedName("children")
-    private List<ChildrenResponse> children;
+    private List<NewsItem> children;
 
     @SerializedName("after")
     private String after;
     @SerializedName("before")
     private String before;
 
-    public DataResponse() {
+    public RResponse() {
         after = "";
     }
 
-    public List<ChildrenResponse> getChildren() {
+    public List<NewsItem> getChildren() {
         return children;
     }
 
-    public void setChildren(List<ChildrenResponse> children) {
+    public void setChildren(List<NewsItem> children) {
         this.children = children;
     }
 

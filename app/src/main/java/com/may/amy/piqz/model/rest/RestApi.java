@@ -45,8 +45,8 @@ public class RestApi {
                     .build();
         } else {
             retrofit = new Retrofit.Builder()
-                    .baseUrl("https://api.reddit.com")
-                   .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl("http://www.reddit.com")
+                    .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
         mRestHelper = retrofit.create(RestHelper.class);
@@ -75,8 +75,10 @@ public class RestApi {
         call.enqueue(handler);
     }
 
-    public void getNews(String after, String limit, Callback<NewsResponse> handler) {
-        Call<NewsResponse> call = mRestHelper.listHot(after, limit);
-        call.enqueue(handler);
+    public Call<NewsResponse> getNews(String after, String limit, Callback<NewsResponse> handler) {
+        return mRestHelper.listHot(after, limit);
+    }
+    public Call<NewsResponse> getNews() {
+        return mRestHelper.listHot();
     }
 }
