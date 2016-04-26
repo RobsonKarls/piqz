@@ -16,7 +16,7 @@ import com.may.amy.piqz.R;
 import com.may.amy.piqz.model.NewsManager;
 import com.may.amy.piqz.model.NewsItem;
 import com.may.amy.piqz.model.RResponse;
-import com.may.amy.piqz.model.rest.DataReceivedInterface;
+import com.may.amy.piqz.model.DataReceivedInterface;
 import com.may.amy.piqz.view.adapter.PostAdapter;
 
 import java.io.IOException;
@@ -67,20 +67,22 @@ public class PostListViewModel implements DataReceivedInterface {
         swipeRefreshLayout.setRefreshing(refreshing);
     }
 
-    public PostListViewModel(final NewsManager newsManager, String token) {
-        mNewsManager = newsManager;
-        this.token = token;
-    }
+    /*
+    *  CONSTRUCTORS:
+    * */
 
-    public PostListViewModel(NewsManager mNewsManager) {
-        this(mNewsManager, "");
+    public PostListViewModel() {
+        this(false, "");
     }
 
     public PostListViewModel(String token) {
-        mNewsManager = new NewsManager(this);
-        this.token = token;
+        this(true, token);
     }
 
+    public PostListViewModel(boolean auth, String token) {
+        mNewsManager = new NewsManager(this, auth, token);
+        this.token = token;
+    }
     public ObservableBoolean getSwipeRefreshLayoutRefreshing() {
         return mSwipeRefreshLayoutRefreshing;
     }

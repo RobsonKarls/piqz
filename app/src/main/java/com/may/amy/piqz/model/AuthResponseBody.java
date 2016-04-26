@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  */
 public class AuthResponseBody {
 
-    @SerializedName("acess_token")
+    @SerializedName("access_token")
     private String accessToken;
     @SerializedName("token_type")
     private String tokenType;

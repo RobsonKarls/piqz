@@ -17,6 +17,7 @@ import com.may.amy.piqz.R;
 import com.may.amy.piqz.databinding.FeedFragmentBinding;
 import com.may.amy.piqz.model.InfinteScrollListener;
 import com.may.amy.piqz.model.NewsItem;
+import com.may.amy.piqz.model.NewsManager;
 import com.may.amy.piqz.view.adapter.PostAdapter;
 import com.may.amy.piqz.viewmodel.PostListViewModel;
 
@@ -50,7 +51,7 @@ public class FeedFragment extends Fragment
 
         SharedPreferences pref = getActivity().getSharedPreferences("AppPref", Context.MODE_PRIVATE);
         String token = "bearer " + pref.getString("token", "");
-        mViewModel = new PostListViewModel(token);
+        mViewModel = new PostListViewModel(true, token);
         binding.setViewModel(mViewModel);
         binding.setAdapter(new PostAdapter(new ArrayList<NewsItem>()));
 

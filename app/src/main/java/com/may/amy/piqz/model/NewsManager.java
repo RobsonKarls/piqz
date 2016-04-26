@@ -1,11 +1,8 @@
 package com.may.amy.piqz.model;
 
-import android.databinding.DataBindingUtil;
 import android.util.Log;
 
-import com.may.amy.piqz.model.rest.DataReceivedInterface;
 import com.may.amy.piqz.model.rest.RestApi;
-import com.may.amy.piqz.viewmodel.PostListViewModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,20 +18,24 @@ public class NewsManager {
     private RestApi api;
     private DataReceivedInterface dataReceivedInterface;
 
-
     public NewsManager(DataReceivedInterface dataReceivedInterface) {
-        api = new RestApi(false);
+        api = new RestApi(true, "");
         this.dataReceivedInterface = dataReceivedInterface;
     }
 
-    public void getNews(String token, String subreddit, String after, String limit) throws IOException {
+
+    public NewsManager(DataReceivedInterface dataReceivedInterface, boolean auth, String token) {
+        api = new RestApi(auth, token);
+        this.dataReceivedInterface = dataReceivedInterface;
+    }
+
+    public void getNews(String token, String subreddit, final String after, String limit) throws IOException {
         Call<NewsResponse> callResponse;
-        if (token.isEmpty()){
+        if (token.isEmpty()) {
             callResponse = api.getNews(subreddit, after, limit);
-        }else{
+        } else {
             callResponse = api.getNews(token, subreddit, after, limit);
         }
-
 
         Callback<NewsResponse> callback = new Callback<NewsResponse>() {
             @Override
@@ -60,7 +61,10 @@ public class NewsManager {
                     dataReceivedInterface.updateData(rResponse);
 
                 } else {
-                    Log.e(NewsManager.class.getSimpleName(), "Response not successful.");
+                    Log.e(NewsManager.class.getSimpleName(), "Response not successful:\n" +
+                            (response.errorBody() != null ? response.errorBody().toString() : "Errorbody is null")+
+                            "\nError code: " + response.code());
+
                 }
             }
 

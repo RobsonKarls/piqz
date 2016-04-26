@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         OAuthApi mAuthApi = new OAuthApi(this);
         mFeedFragment = new FeedFragment();
-        boolean auth = false;
+        boolean auth = true;
         if (auth){
             mAuthApi.auth(new Callback<AuthResponseBody>() {
                 @Override

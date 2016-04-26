@@ -26,23 +26,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by kuhnertj on 15.04.2016.
  */
 public class OAuthApi {
-    private static String CLIENT_ID = "FwkV6F1VZWc0uw";
-    private static final String BASE_URL = "https://www.reddit.com";
-    private static String REDIRECT_URI = "http://amylinn.github.io/piqz";
-    private static String GRANT_TYPE = "https://oauth.reddit.com/grants/installed_client";
+    private static final String CLIENT_ID = "FwkV6F1VZWc0uw";
+    private static final String BASE_URL = "https://ssl.reddit.com";
+    private static final String REDIRECT_URI = "http://amylinn.github.io/piqz";
+    private static final String GRANT_TYPE = "https://oauth.reddit.com/grants/installed_client";
 
 
     private SharedPreferences pref;
     private String token;
-    private Context context;
 
     private final AuthHelper mAuthHelper;
 
     public OAuthApi(Context cnt) {
-        context = cnt;
         pref = cnt.getSharedPreferences("AppPref", Context.MODE_PRIVATE);
-
-
         Retrofit retrofit = new Retrofit.Builder()
                 .client(getClient())
                 .addConverterFactory(GsonConverterFactory.create())
@@ -54,17 +50,6 @@ public class OAuthApi {
 
     private OkHttpClient getClient() {
         return new OkHttpClient.Builder()
-              /*  .authenticator(new Authenticator() {
-                    @Override
-                    public Request authenticate(Route route, Response response) throws IOException {
-                        //String credential = Credentials.basic(CLIENT_ID, "");
-                        String credentials = CLIENT_ID + ":" + "";
-                        String cred = "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
-                        Request.Builder builder = response.request().newBuilder().addHeader("Authorization", cred)
-                                .addHeader("Accept", "application/json");
-                        return builder.build();
-                    }
-                })*/
                 .addInterceptor(new Interceptor() {
                     @Override
                     public Response intercept(Chain chain) throws IOException {
@@ -86,17 +71,8 @@ public class OAuthApi {
     }
 
     public void auth(Callback<AuthResponseBody> handler) {
-/*        RequestParams requestParams = new RequestParams();
-        requestParams.put("grant_type", "https://oauth.reddit.com/grants/installed_client");
-       // requestParams.put("redirect_uri", REDIRECT_URI);
-        requestParams.put("device_id", getDeviceId());
-
-        Call<AuthResponseBody> responseCall = mAuthHelper.auth(Credentials.basic(CLIENT_ID, ""), requestParams);*/
-        String credentials = CLIENT_ID + ":" + "";
-        //String cred = Credentials.basic(CLIENT_ID, "");
-        String cred = "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
         Call<AuthResponseBody> responseCall =
-                mAuthHelper.auth(GRANT_TYPE, getDeviceId(), REDIRECT_URI);
+                mAuthHelper.auth(GRANT_TYPE, getDeviceId());
         responseCall.enqueue(handler);
     }
 

@@ -17,48 +17,37 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by kuhnertj on 15.04.2016.
  */
 public class RestApi {
-
     private final RestHelper mRestHelper;
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    private String token = "";
-
-
     public RestApi() {
-        this(false);
+        this(false, "");
     }
 
-    public RestApi(boolean auth) {
+    public RestApi(boolean auth, String token) {
         final Retrofit retrofit;
+        auth = false;
         if (auth) {
             retrofit = new Retrofit.Builder()
                     .baseUrl("https://oauth.reddit.com")
                     .addConverterFactory(GsonConverterFactory.create())
-                    .client(getClient())
+                    .client(getClient(token))
                     .build();
         } else {
             retrofit = new Retrofit.Builder()
-                    .baseUrl("http://www.reddit.com")
+                    .baseUrl("http://oauth.reddit.com")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
         mRestHelper = retrofit.create(RestHelper.class);
     }
 
-    private OkHttpClient getClient() {
+    private OkHttpClient getClient(final String token) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .addInterceptor(new Interceptor() {
                     @Override
                     public Response intercept(Chain chain) throws IOException {
                         Request request = chain.request().newBuilder()
-                                .addHeader("Accept", "application/json")
+                               // .addHeader("Accept", "application/json")
                                 .addHeader("Authorization", token)
                                 .build();
 
@@ -67,7 +56,6 @@ public class RestApi {
                 });
 
         return builder.build();
-
     }
 
     public Call<NewsResponse> getNews(String token, String subreddit, String after, String limit) {

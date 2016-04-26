@@ -24,10 +24,11 @@ public interface AuthHelper {
     @POST("/api/v1/access_token")
     Call<AuthResponseBody> auth(@Header("Authorization")String credentials, @Field("grant_type") String grantType,
                                 @Field("device_id") String deviceId, @Field("redirect_uri") String redirectUri);
+
     @FormUrlEncoded
     @POST("/api/v1/access_token")
     Call<AuthResponseBody> auth(@Field("grant_type") String grantType,
-                                @Field("device_id") String deviceId, @Field("redirect_uri") String redirectUri);
+                                @Field("device_id") String deviceId);
 }
 
 

@@ -1,4 +1,4 @@
-package com.may.amy.piqz.model.rest;
+package com.may.amy.piqz.model;
 
 import com.may.amy.piqz.model.RResponse;
 
