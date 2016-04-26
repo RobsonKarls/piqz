@@ -25,7 +25,6 @@ public class RestApi {
 
     public RestApi(boolean auth, String token) {
         final Retrofit retrofit;
-        auth = false;
         if (auth) {
             retrofit = new Retrofit.Builder()
                     .baseUrl("https://oauth.reddit.com")
@@ -59,8 +58,7 @@ public class RestApi {
     }
 
     public Call<NewsResponse> getNews(String token, String subreddit, String after, String limit) {
-        return mRestHelper.listHot(token, "application/json", subreddit, after, limit);
-
+        return mRestHelper.listHot(subreddit, after, limit);
     }
 
     public Call<NewsResponse> getNews(String subreddit, String after, String limit) {
