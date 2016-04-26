@@ -1,5 +1,6 @@
 package com.may.amy.piqz.view.adapter;
 
+import android.databinding.ObservableArrayList;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -15,19 +16,12 @@ import java.util.List;
  * Created by kuhnertj on 15.04.2016.
  */
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostItemViewHolder> {
-    private final List<NewsItem> mPosts;
+    private ObservableArrayList<NewsItem> mPosts;
 
-    public PostAdapter(final List<NewsItem> posts) {
-        mPosts = new ArrayList<>();
-        if (posts != null) {
-            mPosts.addAll(posts);
-        }
+    public PostAdapter(ObservableArrayList<NewsItem> posts) {
+        mPosts = posts;
     }
 
-    public void updateDataSet(List<NewsItem> posts){
-        mPosts.clear();
-        mPosts.addAll(posts);
-    }
 
     @Override
     public PostItemViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {

@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.may.amy.piqz.R;
@@ -24,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        ((Toolbar) findViewById(R.id.toolbar)).setTitle(getString(R.string.app_name));
 
         OAuthApi mAuthApi = new OAuthApi();
         mFeedFragment = new FeedFragment();

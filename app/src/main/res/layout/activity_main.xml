@@ -5,8 +5,17 @@
     android:layout_height="match_parent"
     tools:context=".view.activity.MainActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:title="@string/app_name"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true" />
+
     <FrameLayout
         android:id="@+id/container_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar" />
 </RelativeLayout>

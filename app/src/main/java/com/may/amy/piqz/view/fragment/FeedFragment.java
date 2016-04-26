@@ -4,6 +4,7 @@ package com.may.amy.piqz.view.fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
+import android.databinding.ObservableArrayList;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -54,14 +55,12 @@ public class FeedFragment extends Fragment
         String token = "bearer " + pref.getString("token", "");
         mViewModel = new PostListViewModel(true, token);
         binding.setViewModel(mViewModel);
-        binding.setAdapter(new PostAdapter(new ArrayList<NewsItem>()));
 
         binding.swipeLayout.setColorSchemeResources(R.color.colorAccent);
         binding.swipeLayout.setOnRefreshListener(this);
 
         binding.recyclerView.setHasFixedSize(true);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //binding.recyclerView.setAdapter(new PostAdapter(Collections.<NewsItem>emptyList()));
         binding.recyclerView.clearOnScrollListeners();
         binding.recyclerView.addOnScrollListener(new InfinteScrollListener((LinearLayoutManager) binding.recyclerView.getLayoutManager(), this));
 

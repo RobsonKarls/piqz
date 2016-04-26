@@ -6,6 +6,7 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableInt;
 import android.databinding.ObservableList;
 import android.os.AsyncTask;
+import android.support.design.internal.NavigationMenuPresenter;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -31,6 +32,7 @@ public class PostListViewModel implements DataReceivedInterface {
     private final String token;
     private String after;
 
+
     private final ObservableList<NewsItem> mPosts = new ObservableArrayList<>();
     private final ObservableInt mEmptyViewVisibility = new ObservableInt(View.GONE);
     private final ObservableBoolean mSwipeRefreshLayoutRefreshing = new ObservableBoolean();
@@ -44,6 +46,7 @@ public class PostListViewModel implements DataReceivedInterface {
                     .into(imageView);
 
         } else {
+            //TODO: Make this as Bitmap with watermark/overlay "play"
             Glide.with(imageView.getContext())
                     .load(imageUrl).asGif()
                     .placeholder(R.drawable.ic_sync_black_48dp)
@@ -52,10 +55,13 @@ public class PostListViewModel implements DataReceivedInterface {
         }
     }
 
-    @BindingAdapter({"items", "adapter"})
-    public static void loadItems(final RecyclerView recyclerView, final List<NewsItem> posts, PostAdapter adapter) {
-        adapter.updateDataSet(posts);
-        recyclerView.setAdapter(adapter);
+    @BindingAdapter({"items"})
+    public static void loadItems(final RecyclerView recyclerView, final List<NewsItem> posts) {
+        if (recyclerView.getAdapter() == null){
+            recyclerView.setAdapter(new PostAdapter((ObservableArrayList<NewsItem>) posts));
+        }else{
+            ((PostAdapter) recyclerView.getAdapter()).notifyDataSetChanged();
+        }
     }
 
     @BindingAdapter({"refreshing"})
