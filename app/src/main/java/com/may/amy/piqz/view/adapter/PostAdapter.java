@@ -24,6 +24,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostItemViewHo
         }
     }
 
+    public void updateDataSet(List<NewsItem> posts){
+        mPosts.clear();
+        mPosts.addAll(posts);
+    }
+
     @Override
     public PostItemViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         final PostItemBinding binding = PostItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);

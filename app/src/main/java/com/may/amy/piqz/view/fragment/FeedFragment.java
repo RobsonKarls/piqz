@@ -15,17 +15,19 @@ import android.view.ViewGroup;
 
 import com.may.amy.piqz.R;
 import com.may.amy.piqz.databinding.FeedFragmentBinding;
+import com.may.amy.piqz.model.InfinteScrollListener;
 import com.may.amy.piqz.model.NewsItem;
-import com.may.amy.piqz.model.NewsManager;
 import com.may.amy.piqz.view.adapter.PostAdapter;
 import com.may.amy.piqz.viewmodel.PostListViewModel;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FeedFragment extends Fragment  implements SwipeRefreshLayout.OnRefreshListener {
+public class FeedFragment extends Fragment
+        implements SwipeRefreshLayout.OnRefreshListener, InfinteScrollListener.LoadInterface {
     private FeedFragmentBinding binding;
     private PostListViewModel mViewModel;
 
@@ -47,25 +49,30 @@ public class FeedFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
         super.onViewCreated(view, savedInstanceState);
 
         SharedPreferences pref = getActivity().getSharedPreferences("AppPref", Context.MODE_PRIVATE);
-        String token = "bearer "+ pref.getString("token", "");
+        String token = "bearer " + pref.getString("token", "");
         mViewModel = new PostListViewModel(token);
         binding.setViewModel(mViewModel);
+        binding.setAdapter(new PostAdapter(new ArrayList<NewsItem>()));
 
         binding.swipeLayout.setColorSchemeResources(R.color.colorAccent);
         binding.swipeLayout.setOnRefreshListener(this);
-        binding.swipeLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mViewModel.onFirstRefresh();
-            }
-        });
 
+        binding.recyclerView.setHasFixedSize(true);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        binding.recyclerView.setAdapter(new PostAdapter(Collections.<NewsItem>emptyList()));
+        //binding.recyclerView.setAdapter(new PostAdapter(Collections.<NewsItem>emptyList()));
+        binding.recyclerView.clearOnScrollListeners();
+        binding.recyclerView.addOnScrollListener(new InfinteScrollListener((LinearLayoutManager) binding.recyclerView.getLayoutManager(), this));
+
+        onRefresh();
     }
 
     @Override
     public void onRefresh() {
-        mViewModel.onRefresh();
+        mViewModel.onRefresh(true);
+    }
+
+    @Override
+    public void loadItems() {
+        mViewModel.onRefresh(false);
     }
 }

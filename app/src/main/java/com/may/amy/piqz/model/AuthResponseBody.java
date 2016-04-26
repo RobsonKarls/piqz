@@ -1,10 +1,20 @@
 package com.may.amy.piqz.model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Amy on 16.04.2016.
  */
 public class AuthResponseBody {
-    private String accessToken, tokenType, expiresIn, scope;
+
+    @SerializedName("acess_token")
+    private String accessToken;
+    @SerializedName("token_type")
+    private String tokenType;
+    @SerializedName("expires_in")
+    private String expiresIn;
+    @SerializedName("scope")
+    private String scope;
 
     public String getAccessToken() {
         return accessToken;

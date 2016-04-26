@@ -5,11 +5,15 @@
 
     <data class="FeedFragmentBinding">
 
-        <import type="com.may.amy.piqz.viewmodel.PostListViewModel"/>
+        <import type="com.may.amy.piqz.viewmodel.PostListViewModel" />
+
+        <variable
+            name="adapter"
+            type="com.may.amy.piqz.view.adapter.PostAdapter" />
 
         <variable
             name="viewModel"
-            type="PostListViewModel"/>
+            type="PostListViewModel" />
 
     </data>
 
@@ -27,7 +31,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_scrollFlags="scroll|enterAlways"/>
+                app:layout_scrollFlags="scroll|enterAlways" />
 
         </android.support.design.widget.AppBarLayout>
 
@@ -42,7 +46,8 @@
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:items="@{viewModel.posts}"/>
+                app:adapter="@{adapter}"
+                app:items="@{viewModel.posts}" />
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
@@ -51,7 +56,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="No post"
-            android:visibility="@{viewModel.emptyViewVisibility}"/>
+            android:visibility="@{viewModel.emptyViewVisibility}" />
 
     </android.support.design.widget.CoordinatorLayout>
 

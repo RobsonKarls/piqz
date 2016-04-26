@@ -70,15 +70,16 @@ public class RestApi {
 
     }
 
-    public void getNews(String token, String after, String limit, Callback<NewsResponse> handler) {
-        Call<NewsResponse> call = mRestHelper.listHot(token, "application/json", after, limit);
-        call.enqueue(handler);
+    public Call<NewsResponse> getNews(String token, String subreddit, String after, String limit) {
+        return mRestHelper.listHot(token, "application/json", subreddit, after, limit);
+
     }
 
     public Call<NewsResponse> getNews(String subreddit, String after, String limit) {
-        return mRestHelper.listHot(subreddit, after, limit);
+        return getNews("", subreddit, after, limit);
     }
+
     public Call<NewsResponse> getNews() {
-        return mRestHelper.listHot();
+        return getNews("funny", "","");
     }
 }

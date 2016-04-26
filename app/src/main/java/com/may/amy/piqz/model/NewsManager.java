@@ -19,11 +19,8 @@ import retrofit2.Response;
  */
 public class NewsManager {
     private RestApi api;
-    private Callback<NewsResponse> callback;
-    private Response<NewsResponse> response;
     private DataReceivedInterface dataReceivedInterface;
 
-    private DataResponse dataResponse;
 
     public NewsManager(DataReceivedInterface dataReceivedInterface) {
         api = new RestApi(false);
@@ -31,12 +28,15 @@ public class NewsManager {
     }
 
     public void getNews(String token, String subreddit, String after, String limit) throws IOException {
-        //  Call<NewsResponse> callResponse = api.getNews(after, limit, callback);
-        Call<NewsResponse> callResponse = api.getNews("funny", after, limit);
-        dataResponse = new DataResponse();
+        Call<NewsResponse> callResponse;
+        if (token.isEmpty()){
+            callResponse = api.getNews(subreddit, after, limit);
+        }else{
+            callResponse = api.getNews(token, subreddit, after, limit);
+        }
 
-        //TODO: Das hat nichts im viewmodel zu suchen..
-        callback = new Callback<NewsResponse>() {
+
+        Callback<NewsResponse> callback = new Callback<NewsResponse>() {
             @Override
             public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
                 if (response.isSuccessful()) {
