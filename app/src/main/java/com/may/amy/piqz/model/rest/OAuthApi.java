@@ -1,22 +1,18 @@
 package com.may.amy.piqz.model.rest;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import com.loopj.android.http.Base64;
-import com.loopj.android.http.RequestParams;
 import com.may.amy.piqz.model.AuthResponseBody;
+import com.may.amy.piqz.util.AppUtil;
 
 import java.io.IOException;
 import java.util.UUID;
 
-import okhttp3.Authenticator;
-import okhttp3.Credentials;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.Route;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -31,14 +27,9 @@ public class OAuthApi {
     private static final String REDIRECT_URI = "http://amylinn.github.io/piqz";
     private static final String GRANT_TYPE = "https://oauth.reddit.com/grants/installed_client";
 
-
-    private SharedPreferences pref;
-    private String token;
-
     private final AuthHelper mAuthHelper;
 
-    public OAuthApi(Context cnt) {
-        pref = cnt.getSharedPreferences("AppPref", Context.MODE_PRIVATE);
+    public OAuthApi() {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(getClient())
                 .addConverterFactory(GsonConverterFactory.create())
@@ -77,11 +68,11 @@ public class OAuthApi {
     }
 
     private String getDeviceId() {
-        if (pref.getString("device_id", null) == null) {
+        if (AppUtil.getInstance().getAppPreferences().getString(AppUtil.KEY_DEVICE_ID, null) == null) {
             String uuid = UUID.randomUUID().toString();
-            pref.edit().putString("device_id", uuid).apply();
+            AppUtil.getInstance().getAppPreferences().edit().putString(AppUtil.KEY_DEVICE_ID, uuid).apply();
         }
-        return pref.getString("device_id", null);
+        return AppUtil.getInstance().getAppPreferences().getString(AppUtil.KEY_DEVICE_ID, null);
     }
 
 }

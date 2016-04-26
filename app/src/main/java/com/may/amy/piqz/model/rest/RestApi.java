@@ -24,7 +24,7 @@ public class RestApi {
     }
 
     public RestApi(boolean auth, String token) {
-        final Retrofit retrofit;
+        Retrofit retrofit;
         if (auth) {
             retrofit = new Retrofit.Builder()
                     .baseUrl("https://oauth.reddit.com")
@@ -33,7 +33,7 @@ public class RestApi {
                     .build();
         } else {
             retrofit = new Retrofit.Builder()
-                    .baseUrl("http://oauth.reddit.com")
+                    .baseUrl("http://www.reddit.com")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
@@ -46,7 +46,6 @@ public class RestApi {
                     @Override
                     public Response intercept(Chain chain) throws IOException {
                         Request request = chain.request().newBuilder()
-                               // .addHeader("Accept", "application/json")
                                 .addHeader("Authorization", token)
                                 .build();
 

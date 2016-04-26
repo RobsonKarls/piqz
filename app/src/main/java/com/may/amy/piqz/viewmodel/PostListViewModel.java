@@ -37,12 +37,8 @@ public class PostListViewModel implements DataReceivedInterface {
 
     @BindingAdapter({"imageUrl"})
     public static void loadImage(final ImageView imageView, final String imageUrl) {
-        if (!imageUrl.contains("gif")) {
-            String url = imageUrl;
-            if (!imageUrl.contains(".jpg") || !imageUrl.contains(".png") || !imageUrl.contains("i.reddituploads.com")) {
-                url = imageUrl + ".jpg";
-            }
-            Glide.with(imageView.getContext()).load(url)
+        if (!imageUrl.endsWith("gif")) {
+            Glide.with(imageView.getContext()).load(imageUrl)
                     .placeholder(R.drawable.ic_sync_black_48dp)
                     .error(R.drawable.ic_sync_problem_black_48dp)
                     .into(imageView);

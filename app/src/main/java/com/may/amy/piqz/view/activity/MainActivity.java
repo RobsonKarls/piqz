@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        OAuthApi mAuthApi = new OAuthApi(this);
+        OAuthApi mAuthApi = new OAuthApi();
         mFeedFragment = new FeedFragment();
         boolean auth = true;
         if (auth){

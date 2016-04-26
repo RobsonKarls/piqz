@@ -3,6 +3,7 @@ package com.may.amy.piqz.model;
 import android.util.Log;
 
 import com.may.amy.piqz.model.rest.RestApi;
+import com.may.amy.piqz.util.AppUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import retrofit2.Response;
  */
 public class NewsManager {
     private RestApi api;
+    private RestApi apiNoAuth;
     private DataReceivedInterface dataReceivedInterface;
 
     public NewsManager(DataReceivedInterface dataReceivedInterface) {
@@ -26,13 +28,18 @@ public class NewsManager {
 
     public NewsManager(DataReceivedInterface dataReceivedInterface, boolean auth, String token) {
         api = new RestApi(auth, token);
+        apiNoAuth = new RestApi();
+
         this.dataReceivedInterface = dataReceivedInterface;
     }
 
-    public void getNews(String token, String subreddit, final String after, String limit) throws IOException {
+    public void getNews(String token, String subreddit, String after, String limit) throws IOException {
         Call<NewsResponse> callResponse;
+        if (after == null || after.isEmpty())
+            after = AppUtil.getInstance().getAppPreferences().getString(AppUtil.KEY_AFTER, "");
+
         if (token.isEmpty()) {
-            callResponse = api.getNews(subreddit, after, limit);
+            callResponse = apiNoAuth.getNews(subreddit, after, limit);
         } else {
             callResponse = api.getNews(token, subreddit, after, limit);
         }
@@ -47,7 +54,6 @@ public class NewsManager {
                         if (isItemCorrect(item)) {
                             news.add(new NewsItem(item.getAuthor(), item.getTitle(),
                                     item.getNumComments(), item.getCreated(), item.getThumbnail(), item.getUrl()));
-                            Log.d(NewsManager.class.getSimpleName(), "Title: " + item.getTitle());
                         }
                         if (item.getAuthor() == null) {
                             Log.e(NewsManager.class.getSimpleName(), "Response items: getAuthor() returns is null");
@@ -58,11 +64,14 @@ public class NewsManager {
                     rResponse.setChildren(news);
                     rResponse.setAfter(response.body().getData().getAfter());
                     rResponse.setBefore(response.body().getData().getBefore());
+                    AppUtil.getInstance().getAppPreferences().edit()
+                            .putString(AppUtil.KEY_AFTER, response.body().getData().getAfter())
+                            .putString(AppUtil.KEY_BEFORE, response.body().getData().getBefore()).commit();
                     dataReceivedInterface.updateData(rResponse);
 
                 } else {
                     Log.e(NewsManager.class.getSimpleName(), "Response not successful:\n" +
-                            (response.errorBody() != null ? response.errorBody().toString() : "Errorbody is null")+
+                            (response.errorBody() != null ? response.errorBody().toString() : "Errorbody is null") +
                             "\nError code: " + response.code());
 
                 }
@@ -78,8 +87,17 @@ public class NewsManager {
     }
 
     private boolean isItemCorrect(NewsItem item) {
-        return item.getAuthor() != null && !item.getAuthor().equals("funny_mod") &&
-                (item.getUrl().contains("jpg") || item.getUrl().contains("png")
-                        || item.getUrl().contains("gif"));
+        if (item.getAuthor() != null && !item.getAuthor().equals("funny_mode")) {
+            if (item.getUrl().endsWith("imgur.com") && !item.getUrl().endsWith("gif"))
+                item.setUrl(item.getUrl() + ".jpg");
+            if (item.getUrl().endsWith("gifv"))
+                item.setUrl(item.getUrl().replace("gifv", "gif"));
+
+            if (item.getUrl().endsWith("jpg")
+                    || item.getUrl().endsWith("png") ||
+                    item.getUrl().endsWith("gif"))
+                return true;
+        }
+        return false;
     }
 }

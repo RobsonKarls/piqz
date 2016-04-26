@@ -18,6 +18,7 @@ import com.may.amy.piqz.databinding.FeedFragmentBinding;
 import com.may.amy.piqz.model.InfinteScrollListener;
 import com.may.amy.piqz.model.NewsItem;
 import com.may.amy.piqz.model.NewsManager;
+import com.may.amy.piqz.util.AppUtil;
 import com.may.amy.piqz.view.adapter.PostAdapter;
 import com.may.amy.piqz.viewmodel.PostListViewModel;
 
@@ -64,16 +65,22 @@ public class FeedFragment extends Fragment
         binding.recyclerView.clearOnScrollListeners();
         binding.recyclerView.addOnScrollListener(new InfinteScrollListener((LinearLayoutManager) binding.recyclerView.getLayoutManager(), this));
 
-        onRefresh();
+        loadItems();
     }
 
     @Override
     public void onRefresh() {
+        AppUtil.getInstance().getAppPreferences().edit().remove(AppUtil.KEY_AFTER)
+                .remove(AppUtil.KEY_BEFORE).commit();
         mViewModel.onRefresh(true);
     }
 
     @Override
     public void loadItems() {
         mViewModel.onRefresh(false);
+    }
+
+    private void refreshAfter(){
+
     }
 }
