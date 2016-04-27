@@ -42,6 +42,7 @@ public class OAuthApi {
                     @Override
                     public Response intercept(Chain chain) throws IOException {
                         Request original = chain.request();
+                        //Create the class AppConstants or simply put your client id:
                         String credentials = AppConstants.CLIENT_ID + ":" + "";
                         final String basic =
                                 "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
