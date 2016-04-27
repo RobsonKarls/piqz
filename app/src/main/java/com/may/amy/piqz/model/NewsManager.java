@@ -41,13 +41,14 @@ public class NewsManager {
         if (after == null || after.isEmpty())
             after = AppUtil.getInstance().getAppPreferences().getString(AppUtil.KEY_AFTER, "");
 
-        token = AppUtil.getInstance().getAppPreferences().getString(AppUtil.KEY_TOKEN_TYPE, "")
+       if(token.isEmpty()) token = AppUtil.getInstance().getAppPreferences().getString(AppUtil.KEY_TOKEN_TYPE, "")
                 + " " + AppUtil.getInstance().getAppPreferences().getString(AppUtil.KEY_TOKEN, "");
 
         if (token.isEmpty()) {
             callResponse = apiNoAuth.getNews(subreddit, after, limit);
 
         } else {
+            api = new RestApi(true, token);
             callResponse = api.getNews(token, subreddit, after, limit);
         }
         callResponse.enqueue(callback);
@@ -79,6 +80,7 @@ public class NewsManager {
                 AppUtil.getInstance().getAppPreferences().edit()
                         .putString(AppUtil.KEY_AFTER, response.body().getData().getAfter())
                         .putString(AppUtil.KEY_BEFORE, response.body().getData().getBefore()).commit();
+
                 dataReceivedInterface.updateData(rResponse);
 
             } else {
@@ -100,7 +102,11 @@ public class NewsManager {
         switch (response.code()) {
             case 403:
                 AppUtil.getInstance().getOAuthApi().refreshTokenIfExpired();
-                getNews();
+                if (AppUtil.getInstance().getRefreshTryCount() < 3){
+                    AppUtil.getInstance().updateRefreshTryCount();
+                    getNews();
+                }
+
                 break;
         }
 

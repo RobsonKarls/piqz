@@ -18,11 +18,13 @@ public class AppUtil extends Application {
     public static final String KEY_TOKEN_TYPE = "token_type";
     public static final String KEY_EXPIRES_IN = "expires_in";
     public static final String KEY_SCOPE = "scope";
+    public static final String KEY_EXPIRES_AT = "expires_at";
 
 
     private static AppUtil sInstance;
     private SharedPreferences mSharedPreferences;
     private OAuthApi mOAuthApi;
+    private int refreshTryCount = 0;
 
 
     @Override
@@ -47,5 +49,17 @@ public class AppUtil extends Application {
 
     public OAuthApi getOAuthApi() {
         return mOAuthApi;
+    }
+
+    public int getRefreshTryCount() {
+        return refreshTryCount;
+    }
+
+    public void setRefreshTryCount(int refreshTryCount) {
+        this.refreshTryCount = refreshTryCount;
+    }
+
+    public void updateRefreshTryCount() {
+        this.refreshTryCount++;
     }
 }
