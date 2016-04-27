@@ -20,7 +20,7 @@ public class InfinteScrollListener extends RecyclerView.OnScrollListener {
     private int previousTotal = 0, visibleThreshold = 2, firstVisibleItem = 0, visibleItemCount = 0, totalItemCount = 0;
     private boolean loading = true;
 
-
+    //TODO: Change to GridLayoutManager
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
