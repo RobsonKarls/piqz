@@ -1,12 +1,15 @@
-package com.may.amy.piqz.model;
+package com.may.amy.piqz.manager;
 
 import android.util.Log;
 
-import com.may.amy.piqz.model.rest.OAuthApi;
+import com.may.amy.piqz.model.ChildrenResponse;
+import com.may.amy.piqz.model.DataReceivedInterface;
+import com.may.amy.piqz.model.NewsItem;
+import com.may.amy.piqz.model.NewsResponse;
+import com.may.amy.piqz.model.RResponse;
 import com.may.amy.piqz.model.rest.RestApi;
 import com.may.amy.piqz.util.AppUtil;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -14,7 +17,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by kuhnertj on 15.04.2016.
+ * a manager class which sends a request to the api and checks the response
  */
 public class NewsManager {
 
@@ -121,7 +124,7 @@ public class NewsManager {
 
             if (item.getUrl().endsWith("jpg")
                     || item.getUrl().endsWith("png") ||
-                    item.getUrl().endsWith("gif"))
+                    !item.getUrl().endsWith("gif"))
                 return true;
         }
         return false;
@@ -129,7 +132,7 @@ public class NewsManager {
 
 
     public void getMulti() {
-        Call<NewsResponse> call = api.getMultis();
+        Call<NewsResponse> call = api.getMulti();
         call.enqueue(callback);
     }
 }

@@ -1,11 +1,11 @@
-package com.may.amy.piqz.model;
+package com.may.amy.piqz.util;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 /**
- * Created by kuhnertj on 26.04.2016.
+ * Scroll Listener for RecyclerView that sends a request to load more content.
  */
 public class InfinteScrollListener extends RecyclerView.OnScrollListener {
     private LinearLayoutManager layoutManager;

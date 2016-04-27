@@ -6,26 +6,29 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableInt;
 import android.databinding.ObservableList;
 import android.os.AsyncTask;
-import android.support.design.internal.NavigationMenuPresenter;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.may.amy.piqz.R;
-import com.may.amy.piqz.model.NewsManager;
+import com.may.amy.piqz.manager.NewsManager;
 import com.may.amy.piqz.model.NewsItem;
 import com.may.amy.piqz.model.RResponse;
 import com.may.amy.piqz.model.DataReceivedInterface;
 import com.may.amy.piqz.view.adapter.PostAdapter;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by kuhnertj on 15.04.2016.
+ * ViewModel for a single post.
  */
 public class PostListViewModel implements DataReceivedInterface {
     private final NewsManager mNewsManager;
@@ -41,6 +44,21 @@ public class PostListViewModel implements DataReceivedInterface {
     public static void loadImage(final ImageView imageView, final String imageUrl) {
         if (!imageUrl.endsWith("gif")) {
             Glide.with(imageView.getContext()).load(imageUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                    //TODO: Remove for release
+                    .listener(new RequestListener<String, GlideDrawable>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                            if (e != null) e.printStackTrace();
+                            else Log.e("GLIDE", "Exception was null");
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            return false;
+                        }
+                    })
                     .placeholder(R.drawable.ic_sync_black_48dp)
                     .error(R.drawable.ic_sync_problem_black_48dp)
                     .into(imageView);
@@ -49,6 +67,7 @@ public class PostListViewModel implements DataReceivedInterface {
             //TODO: Make this as Bitmap with watermark/overlay "play"
             Glide.with(imageView.getContext())
                     .load(imageUrl).asGif()
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
                     .placeholder(R.drawable.ic_sync_black_48dp)
                     .error(R.drawable.ic_sync_problem_black_48dp)
                     .into(imageView);

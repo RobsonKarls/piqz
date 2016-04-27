@@ -1,10 +1,8 @@
 package com.may.amy.piqz.view.fragment;
 
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
-import android.databinding.ObservableArrayList;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,15 +14,9 @@ import android.view.ViewGroup;
 
 import com.may.amy.piqz.R;
 import com.may.amy.piqz.databinding.FeedFragmentBinding;
-import com.may.amy.piqz.model.InfinteScrollListener;
-import com.may.amy.piqz.model.NewsItem;
-import com.may.amy.piqz.model.NewsManager;
+import com.may.amy.piqz.util.InfinteScrollListener;
 import com.may.amy.piqz.util.AppUtil;
-import com.may.amy.piqz.view.adapter.PostAdapter;
 import com.may.amy.piqz.viewmodel.PostListViewModel;
-
-import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * A simple {@link Fragment} subclass.

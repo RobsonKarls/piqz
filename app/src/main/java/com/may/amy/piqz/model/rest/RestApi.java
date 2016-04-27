@@ -3,6 +3,7 @@ package com.may.amy.piqz.model.rest;
 import com.may.amy.piqz.model.NewsResponse;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -14,7 +15,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by kuhnertj on 15.04.2016.
+ * A Retrofit API class, which handles authorized requests to reddit.
  */
 public class RestApi {
     private final RestHelper mRestHelper;
@@ -51,7 +52,10 @@ public class RestApi {
 
                         return chain.proceed(request);
                     }
-                });
+                })
+                .readTimeout(5, TimeUnit.SECONDS)
+                .writeTimeout(5, TimeUnit.SECONDS);
+
 
         return builder.build();
     }
@@ -68,7 +72,7 @@ public class RestApi {
         return getNews("funny", "","");
     }
 
-    public Call<NewsResponse> getMultis(){
+    public Call<NewsResponse> getMulti(){
         return mRestHelper.getMultis();
     }
 }
