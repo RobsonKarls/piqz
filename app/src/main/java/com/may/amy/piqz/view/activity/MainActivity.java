@@ -1,7 +1,6 @@
 package com.may.amy.piqz.view.activity;
 
 import android.content.SharedPreferences;
-import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +9,7 @@ import android.util.Log;
 import com.may.amy.piqz.R;
 import com.may.amy.piqz.model.AuthResponseBody;
 import com.may.amy.piqz.model.rest.OAuthApi;
+import com.may.amy.piqz.util.AppUtil;
 import com.may.amy.piqz.view.fragment.FeedFragment;
 
 import retrofit2.Call;
@@ -42,14 +42,14 @@ public class MainActivity extends AppCompatActivity {
                             Log.d(TAG,response.errorBody().toString());
                             return;
                         }
-                        Log.d(TAG, "access token: " + response.body().getAccessToken());
-                        SharedPreferences.Editor editor = getSharedPreferences("AppPref", MODE_PRIVATE).edit();
-                        editor.putString("token", response.body().getAccessToken());
-                        editor.putString("token_type", response.body().getTokenType());
-                        editor.putString("expires_in", response.body().getExpiresIn());
-                        editor.putString("scope", response.body().getScope());
-                        editor.apply();
                         replaceFragment();
+                        Log.d(TAG, "access token: " + response.body().getAccessToken());
+                        SharedPreferences.Editor editor = AppUtil.getInstance().getAppPreferences().edit();
+                        editor.putString(AppUtil.KEY_TOKEN, response.body().getAccessToken());
+                        editor.putString(AppUtil.KEY_TOKEN_TYPE, response.body().getTokenType());
+                        editor.putString(AppUtil.KEY_EXPIRES_IN, response.body().getExpiresIn());
+                        editor.putString(AppUtil.KEY_SCOPE, response.body().getScope());
+                        editor.apply();
                     }
                 }
 

@@ -1,6 +1,7 @@
 package com.may.amy.piqz.model.rest;
 
 import com.may.amy.piqz.model.NewsResponse;
+import com.may.amy.piqz.util.AppConstants;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -24,4 +25,6 @@ public interface RestHelper {
                                @Query("after") String after,
                                @Query("limit") String limit);
 
+    @GET("/u/missevrymay/m/forthelulz.json")
+    Call<NewsResponse> getMultis();
 }

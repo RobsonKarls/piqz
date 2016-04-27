@@ -67,4 +67,8 @@ public class RestApi {
     public Call<NewsResponse> getNews() {
         return getNews("funny", "","");
     }
+
+    public Call<NewsResponse> getMultis(){
+        return mRestHelper.getMultis();
+    }
 }

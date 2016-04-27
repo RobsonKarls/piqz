@@ -51,8 +51,8 @@ public class FeedFragment extends Fragment
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        SharedPreferences pref = getActivity().getSharedPreferences("AppPref", Context.MODE_PRIVATE);
-        String token = "bearer " + pref.getString("token", "");
+        SharedPreferences pref = AppUtil.getInstance().getAppPreferences();
+        String token = "bearer " + pref.getString(AppUtil.KEY_TOKEN, "");
         mViewModel = new PostListViewModel(true, token);
         binding.setViewModel(mViewModel);
 

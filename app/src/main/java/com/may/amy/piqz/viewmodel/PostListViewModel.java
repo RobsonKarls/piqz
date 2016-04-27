@@ -60,7 +60,7 @@ public class PostListViewModel implements DataReceivedInterface {
         if (recyclerView.getAdapter() == null){
             recyclerView.setAdapter(new PostAdapter((ObservableArrayList<NewsItem>) posts));
         }else{
-            ((PostAdapter) recyclerView.getAdapter()).notifyDataSetChanged();
+             recyclerView.getAdapter().notifyDataSetChanged();
         }
     }
 
@@ -106,6 +106,7 @@ public class PostListViewModel implements DataReceivedInterface {
             @Override
             public void run() {
                 try {
+                    //mNewsManager.getMulti();
                     if (refreshTop) {
                         mNewsManager.getNews(token, "funny", "", "10");
                     } else {

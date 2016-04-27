@@ -16,6 +16,8 @@ import retrofit2.Response;
  * Created by kuhnertj on 15.04.2016.
  */
 public class NewsManager {
+
+    private static final String TAG = NewsManager.class.getSimpleName();
     private RestApi api;
     private RestApi apiNoAuth;
     private DataReceivedInterface dataReceivedInterface;
@@ -99,5 +101,28 @@ public class NewsManager {
                 return true;
         }
         return false;
+    }
+
+
+    public void getMulti() {
+
+        Call<NewsResponse> call = api.getMultis();
+        call.enqueue(new Callback<NewsResponse>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.isSuccessful()) {
+                    Log.d(TAG, response.body().toString());
+                } else {
+                    Log.e(TAG, "Response failed.\nCode: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Log.e(TAG, t.getMessage());
+            }
+        });
+
+
     }
 }
