@@ -53,7 +53,8 @@ public class FeedFragment extends Fragment
 
         SharedPreferences pref = AppUtil.getInstance().getAppPreferences();
         String token = "bearer " + pref.getString(AppUtil.KEY_TOKEN, "");
-        mViewModel = new PostListViewModel(true, token);
+
+        mViewModel = new PostListViewModel(true);
         binding.setViewModel(mViewModel);
 
         binding.swipeLayout.setColorSchemeResources(R.color.colorAccent);
@@ -63,7 +64,11 @@ public class FeedFragment extends Fragment
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerView.clearOnScrollListeners();
         binding.recyclerView.addOnScrollListener(new InfinteScrollListener((LinearLayoutManager) binding.recyclerView.getLayoutManager(), this));
+    }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         loadItems();
     }
 

@@ -1,12 +1,18 @@
 package com.may.amy.piqz.model.rest;
 
+import android.content.SharedPreferences;
+import android.util.Log;
+
 import com.loopj.android.http.Base64;
 import com.may.amy.piqz.model.AuthResponseBody;
 import com.may.amy.piqz.util.AppConstants;
 import com.may.amy.piqz.util.AppUtil;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.UUID;
+
+import javax.crypto.spec.OAEPParameterSpec;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -23,6 +29,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class OAuthApi {
     private static final String BASE_URL = "https://ssl.reddit.com";
     private static final String GRANT_TYPE = "https://oauth.reddit.com/grants/installed_client";
+    private static final String TAG = OAuthApi.class.getSimpleName();
 
     private final AuthHelper mAuthHelper;
 
@@ -59,10 +66,9 @@ public class OAuthApi {
                 .build();
     }
 
-    public void auth(Callback<AuthResponseBody> handler) {
-        Call<AuthResponseBody> responseCall =
-                mAuthHelper.auth(GRANT_TYPE, getDeviceId());
-        responseCall.enqueue(handler);
+    public void auth() {
+        Call<AuthResponseBody> responseCall = mAuthHelper.auth(GRANT_TYPE, getDeviceId());
+        responseCall.enqueue(responseCallback);
     }
 
     private String getDeviceId() {
@@ -73,4 +79,37 @@ public class OAuthApi {
         return AppUtil.getInstance().getAppPreferences().getString(AppUtil.KEY_DEVICE_ID, null);
     }
 
+    public void refreshTokenIfExpired() {
+        int expiresIn = Integer.parseInt(AppUtil.getInstance().getAppPreferences().getString(AppUtil.KEY_EXPIRES_IN, "0"));
+        if (expiresIn < Calendar.getInstance().getTimeInMillis()) {
+            Call<AuthResponseBody> responseCall = mAuthHelper.auth(GRANT_TYPE, getDeviceId());
+            responseCall.enqueue(responseCallback);
+        }
+    }
+
+    Callback<AuthResponseBody> responseCallback = new Callback<AuthResponseBody>() {
+        @Override
+        public void onResponse(Call<AuthResponseBody> call, retrofit2.Response<AuthResponseBody> response) {
+            Log.d(TAG, "onResponse - Call: " + call.toString() + "\nResponse: " + response.raw().toString());
+            if (response.isSuccessful()) {
+                if (response.body().getAccessToken() == null && response.errorBody() != null) {
+                    Log.d(TAG, response.errorBody().toString());
+                    return;
+                }
+
+                Log.d(TAG, "access token: " + response.body().getAccessToken() + "\nExpires in: " + response.body().getExpiresIn());
+                SharedPreferences.Editor editor = AppUtil.getInstance().getAppPreferences().edit();
+                editor.putString(AppUtil.KEY_TOKEN, response.body().getAccessToken());
+                editor.putString(AppUtil.KEY_TOKEN_TYPE, response.body().getTokenType());
+                editor.putString(AppUtil.KEY_EXPIRES_IN, response.body().getExpiresIn());
+                editor.putString(AppUtil.KEY_SCOPE, response.body().getScope());
+                editor.apply();
+            }
+        }
+
+        @Override
+        public void onFailure(Call<AuthResponseBody> call, Throwable t) {
+            Log.e(TAG, t.toString());
+        }
+    };
 }

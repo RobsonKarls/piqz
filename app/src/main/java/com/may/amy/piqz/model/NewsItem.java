@@ -25,6 +25,10 @@ public class NewsItem {
     @SerializedName("created_utc")
     private long created;
 
+    @SerializedName("score")
+    private int score;
+
+
     public NewsItem(String author, String title, int numComments, long created, String thumbnail, String url) {
         this.author = author;
         this.title = title;
@@ -33,6 +37,15 @@ public class NewsItem {
         this.numComments = numComments;
         this.created = created;
     }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
 
     public String getAuthor() {
         return author;

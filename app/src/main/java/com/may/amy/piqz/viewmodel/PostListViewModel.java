@@ -77,6 +77,9 @@ public class PostListViewModel implements DataReceivedInterface {
         this(false, "");
     }
 
+    public PostListViewModel(boolean auth) {
+        this(auth, "");
+    }
     public PostListViewModel(String token) {
         this(true, token);
     }
@@ -105,17 +108,12 @@ public class PostListViewModel implements DataReceivedInterface {
         AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
             @Override
             public void run() {
-                try {
                     //mNewsManager.getMulti();
                     if (refreshTop) {
                         mNewsManager.getNews(token, "funny", "", "10");
                     } else {
                         mNewsManager.getNews(token, "funny", after, "10");
                     }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
         });
     }
