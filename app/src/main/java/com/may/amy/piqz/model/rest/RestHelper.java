@@ -1,7 +1,6 @@
 package com.may.amy.piqz.model.rest;
 
 import com.may.amy.piqz.model.NewsResponse;
-import com.may.amy.piqz.util.AppConstants;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
