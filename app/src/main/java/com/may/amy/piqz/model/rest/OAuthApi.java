@@ -2,6 +2,7 @@ package com.may.amy.piqz.model.rest;
 
 import com.loopj.android.http.Base64;
 import com.may.amy.piqz.model.AuthResponseBody;
+import com.may.amy.piqz.util.AppConstants;
 import com.may.amy.piqz.util.AppUtil;
 
 import java.io.IOException;
