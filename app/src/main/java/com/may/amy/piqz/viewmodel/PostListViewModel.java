@@ -8,9 +8,11 @@ import android.databinding.ObservableList;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -88,6 +90,16 @@ public class PostListViewModel implements DataReceivedInterface {
         swipeRefreshLayout.setRefreshing(refreshing);
     }
 
+    @BindingAdapter({"htmlText"})
+    public static void convertAndSetText(TextView textView, String htmlString){
+        try {
+            textView.setText(Html.fromHtml(htmlString).toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            textView.setText("");
+        }
+    }
+
     /*
     *  CONSTRUCTORS:
     * */
@@ -127,12 +139,12 @@ public class PostListViewModel implements DataReceivedInterface {
         AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
             @Override
             public void run() {
-                    //mNewsManager.getMulti();
-                    if (refreshTop) {
+                    mNewsManager.getMulti();
+                   /* if (refreshTop) {
                         mNewsManager.getNews(token, "funny", "", "10");
                     } else {
                         mNewsManager.getNews(token, "funny", after, "10");
-                    }
+                    }*/
             }
         });
     }

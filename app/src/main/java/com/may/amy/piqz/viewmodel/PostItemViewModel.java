@@ -19,4 +19,6 @@ public class PostItemViewModel {
         final Context context = view.getContext();
         //context.startActivity(BeerDetailsActivity.getIntent(context, mPost.get().getId()));
     }
+
+
 }

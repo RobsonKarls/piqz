@@ -24,7 +24,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by kuhnertj on 15.04.2016.
+ * OAuthApi: creates Retrofit & Authhelper, logs user in silently~
  */
 public class OAuthApi {
     private static final String BASE_URL = "https://ssl.reddit.com";
@@ -66,11 +66,6 @@ public class OAuthApi {
                 .build();
     }
 
-    public void auth() {
-        Call<AuthResponseBody> responseCall = mAuthHelper.auth(GRANT_TYPE, getDeviceId());
-        responseCall.enqueue(responseCallback);
-    }
-
     private String getDeviceId() {
         if (AppUtil.getInstance().getAppPreferences().getString(AppUtil.KEY_DEVICE_ID, null) == null) {
             String uuid = UUID.randomUUID().toString();
@@ -80,8 +75,8 @@ public class OAuthApi {
     }
 
     public void refreshTokenIfExpired() {
-        int expiresIn = Integer.parseInt(AppUtil.getInstance().getAppPreferences().getString(AppUtil.KEY_EXPIRES_IN, "0"));
-        if (expiresIn < Calendar.getInstance().getTimeInMillis()) {
+        long expiresAt = Long.parseLong(AppUtil.getInstance().getAppPreferences().getString(AppUtil.KEY_EXPIRES_AT, "0"));
+        if (expiresAt < Calendar.getInstance().getTimeInMillis()) {
             Call<AuthResponseBody> responseCall = mAuthHelper.auth(GRANT_TYPE, getDeviceId());
             responseCall.enqueue(responseCallback);
         }
@@ -97,11 +92,12 @@ public class OAuthApi {
                     return;
                 }
 
-                Log.d(TAG, "access token: " + response.body().getAccessToken() + "\nExpires in: " + response.body().getExpiresIn());
+                Log.d(TAG, "access token: " + response.body().getAccessToken());
                 SharedPreferences.Editor editor = AppUtil.getInstance().getAppPreferences().edit();
                 editor.putString(AppUtil.KEY_TOKEN, response.body().getAccessToken());
                 editor.putString(AppUtil.KEY_TOKEN_TYPE, response.body().getTokenType());
                 editor.putString(AppUtil.KEY_EXPIRES_IN, response.body().getExpiresIn());
+                editor.putString(AppUtil.KEY_EXPIRES_AT, String.valueOf(Long.parseLong(response.body().getExpiresIn()) + Calendar.getInstance().getTimeInMillis()));
                 editor.putString(AppUtil.KEY_SCOPE, response.body().getScope());
                 editor.apply();
             }

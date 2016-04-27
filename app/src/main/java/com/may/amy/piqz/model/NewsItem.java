@@ -28,14 +28,30 @@ public class NewsItem {
     @SerializedName("score")
     private int score;
 
+    @SerializedName("domain")
+    private String domain;
 
-    public NewsItem(String author, String title, int numComments, long created, String thumbnail, String url) {
-        this.author = author;
-        this.title = title;
-        this.thumbnail = thumbnail;
-        this.url = url;
-        this.numComments = numComments;
-        this.created = created;
+    @SerializedName("selftext_html")
+    private String htmlSelftext;
+
+    public NewsItem() {
+
+    }
+
+    public String getHtmlSelftext() {
+        return htmlSelftext;
+    }
+
+    public void setHtmlSelftext(String htmlSelftext) {
+        this.htmlSelftext = htmlSelftext;
+    }
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
     }
 
     public int getScore() {

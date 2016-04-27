@@ -68,7 +68,7 @@ public class NewsManager {
                 ArrayList<NewsItem> news = new ArrayList<>();
                 for (ChildrenResponse childrenResponse : response.body().getData().getChildren()) {
                     NewsItem item = childrenResponse.getData();
-                    if (isItemCorrect(item)) {
+                    if (item.getAuthor() != null) {
                         news.add(item);
                     }
                     if (item.getAuthor() == null) {
@@ -115,8 +115,8 @@ public class NewsManager {
 
     }
 
-    private boolean isItemCorrect(NewsItem item) {
-        if (item.getAuthor() != null && !item.getAuthor().equals("funny_mode")) {
+    private boolean isItemAFunnyImage(NewsItem item) {
+        if (item.getAuthor() != null && !item.getAuthor().equals("funny_mod")) {
             if (item.getUrl().endsWith("imgur.com") && !item.getUrl().endsWith("gif"))
                 item.setUrl(item.getUrl() + ".jpg");
             if (item.getUrl().endsWith("gifv"))
