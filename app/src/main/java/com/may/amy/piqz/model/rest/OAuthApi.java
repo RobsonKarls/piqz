@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.loopj.android.http.Base64;
 import com.may.amy.piqz.model.AuthResponseBody;
+import com.may.amy.piqz.util.AppConstants;
 import com.may.amy.piqz.util.AppUtil;
 
 import java.io.IOException;
@@ -22,9 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by kuhnertj on 15.04.2016.
  */
 public class OAuthApi {
-    private static final String CLIENT_ID = "FwkV6F1VZWc0uw";
     private static final String BASE_URL = "https://ssl.reddit.com";
-    private static final String REDIRECT_URI = "http://amylinn.github.io/piqz";
     private static final String GRANT_TYPE = "https://oauth.reddit.com/grants/installed_client";
 
     private final AuthHelper mAuthHelper;
@@ -45,7 +44,7 @@ public class OAuthApi {
                     @Override
                     public Response intercept(Chain chain) throws IOException {
                         Request original = chain.request();
-                        String credentials = CLIENT_ID + ":" + "";
+                        String credentials = AppConstants.CLIENT_ID + ":" + "";
                         final String basic =
                                 "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
 
