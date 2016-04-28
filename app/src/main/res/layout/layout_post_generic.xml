@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data class="PostGenericBinding">
+
+        <import type="com.may.amy.piqz.viewmodel.PostItemViewModel" />
+
+        <variable
+            name="viewModel"
+            type="PostItemViewModel" />
+
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        card_view:cardCornerRadius="3dp"
+        card_view:cardElevation="4dp"
+        card_view:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:drawableBottom="@drawable/line_horizontal"
+                android:padding="20dp"
+                android:text="@{viewModel.post.title, default=Titel}"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_post_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_title"
+                android:layout_margin="5dp"
+                app:htmlText="@{viewModel.post.htmlSelftext}"/>
+
+            <View
+                android:id="@+id/divider_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@drawable/line_horizontal"
+                android:layout_below="@+id/iv_post_image"/>
+
+            <!-- Bottom row -->
+            <LinearLayout
+                android:id="@+id/ll_post_bottom_row"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_below="@id/divider_bottom"
+                android:orientation="horizontal"
+                android:weightSum="6">
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    app:srcCompat="@drawable/vd_arrows_score" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@{String.valueOf(viewModel.post.score), default=666}" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    app:srcCompat="@drawable/vd_short_text" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@{String.valueOf(viewModel.post.numComments), default=666}" />
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+</layout>
