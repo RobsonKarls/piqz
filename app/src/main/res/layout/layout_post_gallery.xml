@@ -4,7 +4,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data class="PostGenericBinding">
+    <data class="PostGalleryBinding">
 
         <import type="com.may.amy.piqz.viewmodel.PostItemViewModel" />
 
@@ -36,20 +36,22 @@
                 android:text="@{viewModel.post.title, default=Titel}"
                 android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/tv_post_content"
+            <!--TODO: Add gallery-->
+            <ImageView
+                android:id="@+id/iv_post_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_below="@+id/tv_title"
                 android:layout_margin="5dp"
-                app:htmlText="@{viewModel.post.htmlSelftext}"/>
+                android:scaleType="fitCenter"
+                app:imageUrl="@{viewModel.post.thumbnail}" />
 
             <View
                 android:id="@+id/divider_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@drawable/line_horizontal"
-                android:layout_below="@+id/tv_post_content"/>
+                android:layout_below="@+id/iv_post_image"/>
 
             <!-- Bottom row -->
             <LinearLayout

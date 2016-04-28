@@ -5,10 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.may.amy.piqz.databinding.PostGalleryBinding;
 import com.may.amy.piqz.databinding.PostImageBinding;
 import com.may.amy.piqz.databinding.PostTextBinding;
 import com.may.amy.piqz.model.NewsItem;
 import com.may.amy.piqz.model.holder.BaseVH;
+import com.may.amy.piqz.model.holder.GalleryVH;
 import com.may.amy.piqz.model.holder.ImagePostVH;
 import com.may.amy.piqz.model.holder.TextPostVH;
 import com.may.amy.piqz.util.KaC;
@@ -27,18 +29,18 @@ public class PostAdapter extends RecyclerView.Adapter<BaseVH> {
 
     @Override
     public BaseVH onCreateViewHolder(final ViewGroup parent, final int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         switch (viewType) {
             case KaC.TYPE_IMAGE:
-                return new ImagePostVH(PostImageBinding
-                        .inflate(LayoutInflater.from(parent.getContext()), parent, false));
+                return new ImagePostVH(PostImageBinding.inflate(inflater, parent, false));
             case KaC.TYPE_SELF:
-                return new TextPostVH(PostTextBinding
-                        .inflate(LayoutInflater.from(parent.getContext()), parent, false));
+                return new TextPostVH(PostTextBinding.inflate(inflater, parent, false));
 
+            case KaC.TYPE_GALLERY:
+                return new GalleryVH(PostGalleryBinding.inflate(inflater, parent, false));
             case KaC.TYPE_GENERIC:
             default:
-                return new TextPostVH(PostTextBinding
-                        .inflate(LayoutInflater.from(parent.getContext()), parent, false));
+                return new TextPostVH(PostTextBinding.inflate(inflater, parent, false));
 
         }
     }

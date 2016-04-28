@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,10 +45,6 @@ public class FeedFragment extends Fragment
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        SharedPreferences pref = AppUtil.getInstance().getAppPreferences();
-        String token = "bearer " + pref.getString(KaC.KEY_TOKEN, "");
-
         mViewModel = new PostListViewModel(true);
         binding.setViewModel(mViewModel);
 
@@ -54,7 +52,7 @@ public class FeedFragment extends Fragment
         binding.swipeLayout.setOnRefreshListener(this);
 
         binding.recyclerView.setHasFixedSize(true);
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         binding.recyclerView.clearOnScrollListeners();
         binding.recyclerView.addOnScrollListener(new InfinteScrollListener((LinearLayoutManager) binding.recyclerView.getLayoutManager(), this));
     }
@@ -77,7 +75,4 @@ public class FeedFragment extends Fragment
         mViewModel.onRefresh(false);
     }
 
-    private void refreshAfter(){
-
-    }
 }
