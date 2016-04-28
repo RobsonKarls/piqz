@@ -8,17 +8,17 @@ import android.view.ViewGroup;
 import com.may.amy.piqz.databinding.PostImageBinding;
 import com.may.amy.piqz.databinding.PostTextBinding;
 import com.may.amy.piqz.model.NewsItem;
+import com.may.amy.piqz.model.holder.BaseVH;
 import com.may.amy.piqz.model.holder.ImagePostVH;
 import com.may.amy.piqz.model.holder.TextPostVH;
+import com.may.amy.piqz.util.KaC;
 
 /**
  * Created by kuhnertj on 15.04.2016.
  */
-public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class PostAdapter extends RecyclerView.Adapter<BaseVH> {
     private ObservableArrayList<NewsItem> mPosts;
 
-    private static final int TYPE_IMAGE = 0;
-    private static final int TYPE_POST = 1;
 
     public PostAdapter(ObservableArrayList<NewsItem> posts) {
         mPosts = posts;
@@ -26,12 +26,16 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
+    public BaseVH onCreateViewHolder(final ViewGroup parent, final int viewType) {
         switch (viewType) {
-            case TYPE_IMAGE:
+            case KaC.TYPE_IMAGE:
                 return new ImagePostVH(PostImageBinding
                         .inflate(LayoutInflater.from(parent.getContext()), parent, false));
-            case TYPE_POST:
+            case KaC.TYPE_SELF:
+                return new TextPostVH(PostTextBinding
+                        .inflate(LayoutInflater.from(parent.getContext()), parent, false));
+
+            case KaC.TYPE_GENERIC:
             default:
                 return new TextPostVH(PostTextBinding
                         .inflate(LayoutInflater.from(parent.getContext()), parent, false));
@@ -40,14 +44,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        switch (holder.getItemViewType()) {
-            case TYPE_IMAGE:
-                ((ImagePostVH) holder).displayPost(mPosts.get(position));
-                break;
-            case TYPE_POST:
-                break;
-        }
+    public void onBindViewHolder(final BaseVH holder, final int position) {
+        holder.displayPost(mPosts.get(position));
     }
 
     @Override
@@ -57,9 +55,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (mPosts.get(position).getDomain().equals("i.imgur.com")) return TYPE_IMAGE;
-        if (mPosts.get(position).getDomain().contains("reddit.com"))return TYPE_POST;
+        return mPosts.get(position).getPostType();
 
-        return super.getItemViewType(position);
     }
 }

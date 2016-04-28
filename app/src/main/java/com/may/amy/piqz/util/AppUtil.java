@@ -11,14 +11,6 @@ import com.may.amy.piqz.model.rest.OAuthApi;
  */
 public class AppUtil extends Application {
     private static final String KEY_PREF = "AppUtil";
-    public static final String KEY_AFTER = "after";
-    public static final String KEY_BEFORE = "before";
-    public static final String KEY_DEVICE_ID = "device_id";
-    public static final String KEY_TOKEN = "token";
-    public static final String KEY_TOKEN_TYPE = "token_type";
-    public static final String KEY_EXPIRES_IN = "expires_in";
-    public static final String KEY_SCOPE = "scope";
-    public static final String KEY_EXPIRES_AT = "expires_at";
 
 
     private static AppUtil sInstance;

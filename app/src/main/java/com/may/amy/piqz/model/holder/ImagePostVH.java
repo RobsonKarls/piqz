@@ -9,15 +9,16 @@ import com.may.amy.piqz.viewmodel.PostItemViewModel;
 /**
  * Created by kuhnertj on 27.04.2016.
  */
-public class ImagePostVH extends RecyclerView.ViewHolder {
+public class ImagePostVH extends BaseVH {
 
     private final PostImageBinding mBinding;
 
     public ImagePostVH(final PostImageBinding binding) {
-        super(binding.getRoot());
+        super(binding);
         mBinding = binding;
     }
 
+    @Override
     public void displayPost(final NewsItem post) {
         if (mBinding.getViewModel() == null) {
             mBinding.setViewModel(new PostItemViewModel());

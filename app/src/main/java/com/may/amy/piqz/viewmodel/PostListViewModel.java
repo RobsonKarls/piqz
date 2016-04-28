@@ -1,11 +1,14 @@
 package com.may.amy.piqz.viewmodel;
 
+import android.annotation.TargetApi;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableInt;
 import android.databinding.ObservableList;
+import android.media.Image;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -78,10 +81,10 @@ public class PostListViewModel implements DataReceivedInterface {
 
     @BindingAdapter({"items"})
     public static void loadItems(final RecyclerView recyclerView, final List<NewsItem> posts) {
-        if (recyclerView.getAdapter() == null){
+        if (recyclerView.getAdapter() == null) {
             recyclerView.setAdapter(new PostAdapter((ObservableArrayList<NewsItem>) posts));
-        }else{
-             recyclerView.getAdapter().notifyDataSetChanged();
+        } else {
+            recyclerView.getAdapter().notifyDataSetChanged();
         }
     }
 
@@ -91,11 +94,11 @@ public class PostListViewModel implements DataReceivedInterface {
     }
 
     @BindingAdapter({"htmlText"})
-    public static void convertAndSetText(TextView textView, String htmlString){
+    public static void convertAndSetText(TextView textView, String htmlString) {
         try {
             textView.setText(Html.fromHtml(htmlString).toString());
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.d("BindingAdapterHtmlText", "html Text was null");
             textView.setText("");
         }
     }
@@ -111,6 +114,7 @@ public class PostListViewModel implements DataReceivedInterface {
     public PostListViewModel(boolean auth) {
         this(auth, "");
     }
+
     public PostListViewModel(String token) {
         this(true, token);
     }
@@ -119,6 +123,7 @@ public class PostListViewModel implements DataReceivedInterface {
         mNewsManager = new NewsManager(this, auth, token);
         this.token = token;
     }
+
     public ObservableBoolean getSwipeRefreshLayoutRefreshing() {
         return mSwipeRefreshLayoutRefreshing;
     }
@@ -139,12 +144,9 @@ public class PostListViewModel implements DataReceivedInterface {
         AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
             @Override
             public void run() {
-                    mNewsManager.getMulti();
-                   /* if (refreshTop) {
-                        mNewsManager.getNews(token, "funny", "", "10");
-                    } else {
-                        mNewsManager.getNews(token, "funny", after, "10");
-                    }*/
+                String limit = "10";
+                mNewsManager.getMulti(token, refreshTop ? "" : after, limit);
+
             }
         });
     }

@@ -16,6 +16,7 @@ import com.may.amy.piqz.R;
 import com.may.amy.piqz.databinding.FeedFragmentBinding;
 import com.may.amy.piqz.util.InfinteScrollListener;
 import com.may.amy.piqz.util.AppUtil;
+import com.may.amy.piqz.util.KaC;
 import com.may.amy.piqz.viewmodel.PostListViewModel;
 
 /**
@@ -44,7 +45,7 @@ public class FeedFragment extends Fragment
         super.onViewCreated(view, savedInstanceState);
 
         SharedPreferences pref = AppUtil.getInstance().getAppPreferences();
-        String token = "bearer " + pref.getString(AppUtil.KEY_TOKEN, "");
+        String token = "bearer " + pref.getString(KaC.KEY_TOKEN, "");
 
         mViewModel = new PostListViewModel(true);
         binding.setViewModel(mViewModel);
@@ -66,8 +67,8 @@ public class FeedFragment extends Fragment
 
     @Override
     public void onRefresh() {
-        AppUtil.getInstance().getAppPreferences().edit().remove(AppUtil.KEY_AFTER)
-                .remove(AppUtil.KEY_BEFORE).commit();
+        AppUtil.getInstance().getAppPreferences().edit().remove(KaC.KEY_AFTER)
+                .remove(KaC.KEY_BEFORE).commit();
         mViewModel.onRefresh(true);
     }
 

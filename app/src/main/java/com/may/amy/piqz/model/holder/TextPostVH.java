@@ -9,12 +9,12 @@ import com.may.amy.piqz.viewmodel.PostItemViewModel;
 /**
  * Created by kuhnertj on 27.04.2016.
  */
-public class TextPostVH extends RecyclerView.ViewHolder {
+public class TextPostVH extends BaseVH {
 
     private final PostTextBinding mBinding;
 
     public TextPostVH(final PostTextBinding binding) {
-        super(binding.getRoot());
+        super(binding);
         mBinding = binding;
     }
 

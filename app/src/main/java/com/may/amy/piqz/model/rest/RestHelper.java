@@ -25,5 +25,8 @@ public interface RestHelper {
                                @Query("limit") String limit);
 
     @GET("/u/missevrymay/m/forthelulz.json")
-    Call<NewsResponse> getMultis();
+    Call<NewsResponse> getMulti();
+
+    @GET("/u/missevrymay/m/forthelulz.json")
+    Call<NewsResponse> getMulti(@Query("after") String after, @Query("limit") String limit);
 }

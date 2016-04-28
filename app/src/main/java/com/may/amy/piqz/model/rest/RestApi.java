@@ -10,7 +10,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -22,6 +21,10 @@ public class RestApi {
 
     public RestApi() {
         this(false, "");
+    }
+
+    public RestApi(String token) {
+        this(true, token);
     }
 
     public RestApi(boolean auth, String token) {
@@ -69,10 +72,15 @@ public class RestApi {
     }
 
     public Call<NewsResponse> getNews() {
-        return getNews("funny", "","");
+        return getNews("funny", "", "");
     }
 
-    public Call<NewsResponse> getMulti(){
-        return mRestHelper.getMultis();
+    public Call<NewsResponse> getMulti() {
+        return mRestHelper.getMulti();
+    }
+
+
+    public Call<NewsResponse> getMulti(String after, String limit) {
+        return mRestHelper.getMulti(after, limit);
     }
 }

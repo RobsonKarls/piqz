@@ -5,14 +5,13 @@ import android.util.Log;
 
 import com.loopj.android.http.Base64;
 import com.may.amy.piqz.model.AuthResponseBody;
-import com.may.amy.piqz.util.AppConstants;
+import com.may.amy.piqz.util.KaC;
+import com.may.amy.piqz.util.PrivateConstants;
 import com.may.amy.piqz.util.AppUtil;
 
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.UUID;
-
-import javax.crypto.spec.OAEPParameterSpec;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -49,8 +48,8 @@ public class OAuthApi {
                     @Override
                     public Response intercept(Chain chain) throws IOException {
                         Request original = chain.request();
-                        //Create the class AppConstants or simply put your client id:
-                        String credentials = AppConstants.CLIENT_ID + ":" + "";
+                        //Create the class PrivateConstants or simply put your client id:
+                        String credentials = PrivateConstants.CLIENT_ID + ":" + "";
                         final String basic =
                                 "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
 
@@ -67,15 +66,15 @@ public class OAuthApi {
     }
 
     private String getDeviceId() {
-        if (AppUtil.getInstance().getAppPreferences().getString(AppUtil.KEY_DEVICE_ID, null) == null) {
+        if (AppUtil.getInstance().getAppPreferences().getString(KaC.KEY_DEVICE_ID, null) == null) {
             String uuid = UUID.randomUUID().toString();
-            AppUtil.getInstance().getAppPreferences().edit().putString(AppUtil.KEY_DEVICE_ID, uuid).apply();
+            AppUtil.getInstance().getAppPreferences().edit().putString(KaC.KEY_DEVICE_ID, uuid).apply();
         }
-        return AppUtil.getInstance().getAppPreferences().getString(AppUtil.KEY_DEVICE_ID, null);
+        return AppUtil.getInstance().getAppPreferences().getString(KaC.KEY_DEVICE_ID, null);
     }
 
     public void refreshTokenIfExpired() {
-        long expiresAt = Long.parseLong(AppUtil.getInstance().getAppPreferences().getString(AppUtil.KEY_EXPIRES_AT, "0"));
+        long expiresAt = Long.parseLong(AppUtil.getInstance().getAppPreferences().getString(KaC.KEY_EXPIRES_AT, "0"));
         if (expiresAt < Calendar.getInstance().getTimeInMillis()) {
             Call<AuthResponseBody> responseCall = mAuthHelper.auth(GRANT_TYPE, getDeviceId());
             responseCall.enqueue(responseCallback);
@@ -94,11 +93,11 @@ public class OAuthApi {
 
                 Log.d(TAG, "access token: " + response.body().getAccessToken());
                 SharedPreferences.Editor editor = AppUtil.getInstance().getAppPreferences().edit();
-                editor.putString(AppUtil.KEY_TOKEN, response.body().getAccessToken());
-                editor.putString(AppUtil.KEY_TOKEN_TYPE, response.body().getTokenType());
-                editor.putString(AppUtil.KEY_EXPIRES_IN, response.body().getExpiresIn());
-                editor.putString(AppUtil.KEY_EXPIRES_AT, String.valueOf(Long.parseLong(response.body().getExpiresIn()) + Calendar.getInstance().getTimeInMillis()));
-                editor.putString(AppUtil.KEY_SCOPE, response.body().getScope());
+                editor.putString(KaC.KEY_TOKEN, response.body().getAccessToken());
+                editor.putString(KaC.KEY_TOKEN_TYPE, response.body().getTokenType());
+                editor.putString(KaC.KEY_EXPIRES_IN, response.body().getExpiresIn());
+                editor.putString(KaC.KEY_EXPIRES_AT, String.valueOf(Long.parseLong(response.body().getExpiresIn()) + Calendar.getInstance().getTimeInMillis()));
+                editor.putString(KaC.KEY_SCOPE, response.body().getScope());
                 editor.apply();
             }
         }

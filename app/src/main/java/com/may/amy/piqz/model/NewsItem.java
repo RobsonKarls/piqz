@@ -34,8 +34,40 @@ public class NewsItem {
     @SerializedName("selftext_html")
     private String htmlSelftext;
 
-    public NewsItem() {
+    @SerializedName("post_hint")
+    private String postHint;
 
+    @SerializedName("over_18")
+    private boolean nsfw;
+
+    private int postType;
+
+    public NewsItem() {
+        postType = 0;
+    }
+
+    public int getPostType() {
+        return postType;
+    }
+
+    public boolean isNsfw() {
+        return nsfw;
+    }
+
+    public void setNsfw(boolean nsfw) {
+        this.nsfw = nsfw;
+    }
+
+    public void setPostType(int postType) {
+        this.postType = postType;
+    }
+
+    public String getPostHint() {
+        return postHint;
+    }
+
+    public void setPostHint(String postHint) {
+        this.postHint = postHint;
     }
 
     public String getHtmlSelftext() {
