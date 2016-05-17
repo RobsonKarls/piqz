@@ -135,6 +135,7 @@ public class NewsManager {
                     getMulti("666", AppUtil.getInstance().getAppPreferences().getString(KaC.KEY_AFTER, ""), "10");
                 }else{
                     //TODO: Show error
+                    dataReceivedInterface.updateData(new RResponse());
                 }
 
                 break;

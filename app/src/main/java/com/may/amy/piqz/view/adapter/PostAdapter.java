@@ -57,6 +57,7 @@ public class PostAdapter extends RecyclerView.Adapter<BaseVH> {
     public void onBindViewHolder(final BaseVH holder, final int position) {
         if (holder instanceof AdVH){
             holder.displayPost(mPosts.get(position));
+
             ((AdVH) holder).displayAd();
         }else{
             holder.displayPost(mPosts.get(position));
@@ -74,4 +75,6 @@ public class PostAdapter extends RecyclerView.Adapter<BaseVH> {
         return mPosts.get(position).getPostType();
 
     }
+
+
 }

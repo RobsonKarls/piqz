@@ -6,4 +6,5 @@
 
 
     <color name="colorTitle">#878787</color>
+    <color name="colorTitleLink">@color/colorPrimary</color>
 </resources>
