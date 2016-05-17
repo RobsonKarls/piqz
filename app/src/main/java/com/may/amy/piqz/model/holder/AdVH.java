@@ -6,7 +6,7 @@ import com.may.amy.piqz.model.NewsItem;
 import com.may.amy.piqz.util.PrivateConstants;
 
 /**
- * Created by kuhnertj on 17.05.2016.
+ * ViewHolder for Ads
  */
 public class AdVH extends BaseVH {
 
@@ -23,7 +23,7 @@ public class AdVH extends BaseVH {
 
     public void displayAd(){
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(PrivateConstants.TEST_DEVICE_S4)
+               // .addTestDevice(PrivateConstants.TEST_DEVICE_S4)
                 .build();
         binding.adView.loadAd(adRequest);
     }

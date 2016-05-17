@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto">
 
-    <data class="PostGalleryBinding">
+    <data class="PostLinkBinding">
 
         <import type="com.may.amy.piqz.viewmodel.PostItemViewModel" />
 
@@ -14,42 +14,48 @@
     </data>
 
     <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        card_view:cardCornerRadius="3dp"
-        card_view:cardElevation="4dp"
+        style="@style/PostCardView"
+        card_view:cardCornerRadius="@dimen/card_corner_radius"
+        card_view:cardElevation="@dimen/card_elevation"
         card_view:cardUseCompatPadding="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <!--TODO: Add link support-->
+            <ImageView
+                android:id="@+id/iv_post_image"
+                android:layout_width="124dp"
+                android:layout_height="124dp"
+                android:scaleType="fitCenter"
+                android:padding="20dp"
+                android:contentDescription="@{viewModel.post.title}"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_below="@+id/tv_title"
+                app:imageUrl="@{viewModel.post.thumbnail}" />
+
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorTitle"
                 android:layout_alignParentTop="true"
-                android:drawableBottom="@drawable/line_horizontal"
+                android:layout_toRightOf="@+id/iv_post_image"
+                android:layout_toEndOf="@+id/iv_post_image"
                 android:padding="20dp"
                 android:text="@{viewModel.post.title, default=Titel}"
+                android:textColor="@color/colorTitle"
                 android:textSize="18sp" />
 
-            <!--TODO: Add gallery-->
-            <ImageView
-                android:id="@+id/iv_post_image"
-                style="@style/PostImageView"
-                android:layout_below="@+id/tv_title"
-                app:imageUrl="@{viewModel.post.thumbnail}"
-                android:contentDescription="@{viewModel.post.title}"/>
 
             <View
                 android:id="@+id/divider_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@drawable/line_horizontal"
-                android:layout_below="@+id/iv_post_image"/>
+                android:layout_below="@+id/iv_post_image"
+                android:background="@drawable/line_horizontal" />
 
             <!-- Bottom row -->
             <LinearLayout
@@ -64,28 +70,28 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:contentDescription="@string/content_description_votes"
                     android:layout_margin="3dp"
-                    android:contentDescription="@{viewModel.post.title}"
                     app:srcCompat="@drawable/vd_arrows_score" />
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:text="@{String.valueOf(viewModel.post.score), default=666}" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:contentDescription="@{viewModel.post.title}"
+                    android:contentDescription="@string/content_description_comment_count"
                     android:layout_margin="3dp"
                     app:srcCompat="@drawable/vd_short_text" />
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:text="@{String.valueOf(viewModel.post.numComments), default=666}" />
 

@@ -1,14 +1,11 @@
 package com.may.amy.piqz.viewmodel;
 
-import android.annotation.TargetApi;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableInt;
 import android.databinding.ObservableList;
-import android.media.Image;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -39,6 +36,7 @@ public class PostListViewModel implements DataReceivedInterface {
     private final NewsManager mNewsManager;
     private final String token;
     private String after;
+    private NotifyFragmentInterface notifyFragmentInterface;
 
 
     private final ObservableList<NewsItem> mPosts = new ObservableArrayList<>();
@@ -107,21 +105,23 @@ public class PostListViewModel implements DataReceivedInterface {
     *  CONSTRUCTORS:
     * */
 
-    public PostListViewModel() {
-        this(false, "");
+    public PostListViewModel( NotifyFragmentInterface notifyFragmentInterface) {
+        this(false, "", notifyFragmentInterface);
     }
 
-    public PostListViewModel(boolean auth) {
-        this(auth, "");
+    public PostListViewModel(boolean auth, NotifyFragmentInterface notifyFragmentInterface) {
+        this(auth, "", notifyFragmentInterface);
     }
 
-    public PostListViewModel(String token) {
-        this(true, token);
+    public PostListViewModel(String token, NotifyFragmentInterface notifyFragmentInterface) {
+        this(true, token, notifyFragmentInterface);
     }
 
-    public PostListViewModel(boolean auth, String token) {
+    public PostListViewModel(boolean auth, String token, NotifyFragmentInterface notifyFragmentInterface) {
         mNewsManager = new NewsManager(this, auth, token);
         this.token = token;
+        this.notifyFragmentInterface = notifyFragmentInterface;
+
     }
 
     public ObservableBoolean getSwipeRefreshLayoutRefreshing() {
@@ -174,5 +174,10 @@ public class PostListViewModel implements DataReceivedInterface {
             mEmptyViewVisibility.set(View.GONE);
             mPosts.addAll(posts);
         }
+        notifyFragmentInterface.updated();
+    }
+
+    public interface NotifyFragmentInterface {
+        void updated();
     }
 }

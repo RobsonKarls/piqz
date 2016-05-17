@@ -9,17 +9,19 @@ import com.may.amy.piqz.databinding.BannerAdBinding;
 import com.may.amy.piqz.databinding.NativeAdBinding;
 import com.may.amy.piqz.databinding.PostGalleryBinding;
 import com.may.amy.piqz.databinding.PostImageBinding;
+import com.may.amy.piqz.databinding.PostLinkBinding;
 import com.may.amy.piqz.databinding.PostTextBinding;
 import com.may.amy.piqz.model.NewsItem;
 import com.may.amy.piqz.model.holder.AdVH;
 import com.may.amy.piqz.model.holder.BaseVH;
 import com.may.amy.piqz.model.holder.GalleryVH;
 import com.may.amy.piqz.model.holder.ImagePostVH;
+import com.may.amy.piqz.model.holder.LinkVH;
 import com.may.amy.piqz.model.holder.TextPostVH;
 import com.may.amy.piqz.util.KaC;
 
 /**
- * Created by kuhnertj on 15.04.2016.
+ * RecyclerView Adapter for the feed
  */
 public class PostAdapter extends RecyclerView.Adapter<BaseVH> {
     private ObservableArrayList<NewsItem> mPosts;
@@ -42,6 +44,8 @@ public class PostAdapter extends RecyclerView.Adapter<BaseVH> {
                 return new GalleryVH(PostGalleryBinding.inflate(inflater, parent, false));
             case KaC.TYPE_AD:
                 return new AdVH(BannerAdBinding.inflate(inflater, parent, false));
+            case KaC.TYPE_LINK:
+                return new LinkVH(PostLinkBinding.inflate(inflater, parent, false));
             case KaC.TYPE_GENERIC:
             default:
                 return new TextPostVH(PostTextBinding.inflate(inflater, parent, false));

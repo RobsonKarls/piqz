@@ -19,17 +19,6 @@
             android:background="@color/colorPrimary"
             app:titleTextColor="#FFF"
             android:title="@string/app_name" />
-
-        <TextView
-            android:id="@+id/tv_loading"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar"
-            android:gravity="center"
-            android:text="Loading..."
-            android:textColor="#e3e3e3"
-            android:textSize="60sp" />
-
         <FrameLayout
             android:id="@+id/container_main"
             android:layout_width="match_parent"

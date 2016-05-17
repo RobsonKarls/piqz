@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
 
     <data class="PostImageBinding">
 
@@ -39,8 +38,9 @@
 
             <ImageView
                 android:id="@+id/iv_post_image"
-                style="@style/PostImageCardView"
+                style="@style/PostImageView"
                 android:layout_below="@+id/tv_title"
+                android:contentDescription="@{viewModel.post.title, default=Titel}"
                 app:imageUrl="@{viewModel.post.url}" />
 
             <View
@@ -64,6 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="3dp"
+                    android:contentDescription="@{viewModel.post.title}"
                     app:srcCompat="@drawable/vd_arrows_score" />
 
                 <TextView
@@ -76,8 +77,10 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:contentDescription="@{viewModel.post.title}"
                     android:layout_margin="3dp"
                     app:srcCompat="@drawable/vd_short_text" />
+
 
                 <TextView
                     android:layout_width="0dp"

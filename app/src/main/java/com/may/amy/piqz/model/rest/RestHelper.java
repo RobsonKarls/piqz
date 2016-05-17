@@ -1,6 +1,7 @@
 package com.may.amy.piqz.model.rest;
 
 import com.may.amy.piqz.model.NewsResponse;
+import com.may.amy.piqz.util.PrivateConstants;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -9,7 +10,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
- * Created by kuhnertj on 15.04.2016.
+ * Class for API calls to reddit with Retrofit
  */
 public interface RestHelper {
     @GET("/r/{subreddit}/hot.json")
@@ -24,9 +25,9 @@ public interface RestHelper {
                                @Query("after") String after,
                                @Query("limit") String limit);
 
-    @GET("/u/missevrymay/m/forthelulz.json")
+    @GET(PrivateConstants.URL_USER + PrivateConstants.URL_MULTI + ".json")
     Call<NewsResponse> getMulti();
 
-    @GET("/u/missevrymay/m/forthelulz.json")
+    @GET(PrivateConstants.URL_USER + PrivateConstants.URL_MULTI + ".json")
     Call<NewsResponse> getMulti(@Query("after") String after, @Query("limit") String limit);
 }

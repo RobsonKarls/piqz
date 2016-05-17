@@ -8,12 +8,19 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="PostImageCardView">
+    <style name="PostImageView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:minHeight">250dp</item>
         <item name="android:scaleType">fitCenter</item>
         <item name="android:layout_margin">5dp</item>
+        <item name="android:padding">20dp</item>
+    </style>
+
+    <style name="PostCardView" parent="CardView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/card_margin</item>
 
     </style>
 

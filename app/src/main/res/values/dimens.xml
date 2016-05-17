@@ -5,4 +5,8 @@
 
     <dimen name="margin_small">8dp</dimen>
     <dimen name="margin_normal">16dp</dimen>
+
+    <dimen name="card_elevation">3dp</dimen>
+    <dimen name="card_margin">3dp</dimen>
+    <dimen name="card_corner_radius">3dp</dimen>
 </resources>

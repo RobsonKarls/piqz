@@ -114,7 +114,6 @@ public class NewsManager {
                 Log.e(TAG, "Response not successful:\n" +
                         (response.errorBody() != null ? response.errorBody().toString() : "Errorbody is null") +
                         "\nError code: " + response.code());
-
                 onError(call, response);
             }
         }
@@ -122,6 +121,7 @@ public class NewsManager {
         @Override
         public void onFailure(Call<NewsResponse> call, Throwable t) {
             Log.e(NewsManager.class.getSimpleName(), "Response failed: " + t.getMessage());
+            dataReceivedInterface.updateData(new RResponse());
         }
     };
 
@@ -133,6 +133,8 @@ public class NewsManager {
                 if (AppUtil.getInstance().getRefreshTryCount() < 3) {
                     AppUtil.getInstance().updateRefreshTryCount();
                     getMulti("666", AppUtil.getInstance().getAppPreferences().getString(KaC.KEY_AFTER, ""), "10");
+                }else{
+                    //TODO: Show error
                 }
 
                 break;
@@ -175,6 +177,9 @@ public class NewsManager {
         //link is self post
         else if (item.getDomain().contains("self")) {
             item.setPostType(KaC.TYPE_SELF);
+        }
+        else if(item.getPostHint() != null && item.getPostHint().equals("link")){
+            item.setPostType(KaC.TYPE_LINK);
         }
 
         return item;

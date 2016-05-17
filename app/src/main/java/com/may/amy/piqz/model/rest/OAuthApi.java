@@ -75,7 +75,7 @@ public class OAuthApi {
 
     public void refreshTokenIfExpired() {
         long expiresAt = Long.parseLong(AppUtil.getInstance().getAppPreferences().getString(KaC.KEY_EXPIRES_AT, "0"));
-        if (expiresAt < Calendar.getInstance().getTimeInMillis()) {
+        if (Calendar.getInstance().getTimeInMillis() - expiresAt > 6000) {
             Call<AuthResponseBody> responseCall = mAuthHelper.auth(GRANT_TYPE, getDeviceId());
             responseCall.enqueue(responseCallback);
         }

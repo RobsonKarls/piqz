@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -25,7 +26,7 @@ import com.may.amy.piqz.viewmodel.PostListViewModel;
  * A simple {@link Fragment} subclass.
  */
 public class FeedFragment extends Fragment
-        implements SwipeRefreshLayout.OnRefreshListener, InfinteScrollListener.LoadInterface {
+        implements SwipeRefreshLayout.OnRefreshListener, InfinteScrollListener.LoadInterface, PostListViewModel.NotifyFragmentInterface {
     private FeedFragmentBinding binding;
     private PostListViewModel mViewModel;
 
@@ -45,7 +46,7 @@ public class FeedFragment extends Fragment
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mViewModel = new PostListViewModel(true);
+        mViewModel = new PostListViewModel(true, this);
         binding.setViewModel(mViewModel);
 
         binding.swipeLayout.setColorSchemeResources(R.color.colorAccent);
@@ -73,6 +74,12 @@ public class FeedFragment extends Fragment
     @Override
     public void loadItems() {
         mViewModel.onRefresh(false);
+        Snackbar.make(binding.getRoot(), "Loading more...", Snackbar.LENGTH_INDEFINITE)
+                .show();
     }
 
+    @Override
+    public void updated() {
+        Snackbar.make(binding.getRoot(), "Loaded", Snackbar.LENGTH_SHORT).show();
+    }
 }
