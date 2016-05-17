@@ -104,19 +104,9 @@ public class PostListViewModel implements DataReceivedInterface {
     /*
     *  CONSTRUCTORS:
     * */
-
-    public PostListViewModel( NotifyFragmentInterface notifyFragmentInterface) {
-        this(false, "", notifyFragmentInterface);
-    }
-
     public PostListViewModel(boolean auth, NotifyFragmentInterface notifyFragmentInterface) {
         this(auth, "", notifyFragmentInterface);
     }
-
-    public PostListViewModel(String token, NotifyFragmentInterface notifyFragmentInterface) {
-        this(true, token, notifyFragmentInterface);
-    }
-
     public PostListViewModel(boolean auth, String token, NotifyFragmentInterface notifyFragmentInterface) {
         mNewsManager = new NewsManager(this, auth, token);
         this.token = token;
@@ -168,16 +158,19 @@ public class PostListViewModel implements DataReceivedInterface {
             posts = new ArrayList<>();
         }
         if (posts.isEmpty()) {
-            mPosts.clear();
-            mEmptyViewVisibility.set(View.VISIBLE);
+           // mPosts.clear();
+           // mEmptyViewVisibility.set(View.VISIBLE);
+            String error = rResponse.getError() != null ? rResponse.getError() : "Pull to refresh";
+            notifyFragmentInterface.updated(error);
         } else {
             mEmptyViewVisibility.set(View.GONE);
             mPosts.addAll(posts);
+            notifyFragmentInterface.updated();
         }
-        notifyFragmentInterface.updated();
     }
 
     public interface NotifyFragmentInterface {
         void updated();
+        void updated(String error);
     }
 }

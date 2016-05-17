@@ -16,6 +16,8 @@ public class RResponse {
     @SerializedName("before")
     private String before;
 
+    private String error;
+
     public RResponse() {
         after = "";
     }
@@ -42,5 +44,13 @@ public class RResponse {
 
     public void setBefore(String before) {
         this.before = before;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String errorCode) {
+        this.error = errorCode;
     }
 }

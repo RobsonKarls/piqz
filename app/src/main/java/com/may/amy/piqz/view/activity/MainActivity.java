@@ -31,8 +31,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        setSupportActionBar(binding.toolbar);
-        binding.toolbar.setTitle(R.string.app_name);
 
 
         mFeedFragment = new FeedFragment();

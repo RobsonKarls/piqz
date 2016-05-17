@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -49,6 +50,10 @@ public class FeedFragment extends Fragment
         mViewModel = new PostListViewModel(true, this);
         binding.setViewModel(mViewModel);
 
+
+        ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbar);
+        binding.toolbar.setTitle(R.string.app_name);
+
         binding.swipeLayout.setColorSchemeResources(R.color.colorAccent);
         binding.swipeLayout.setOnRefreshListener(this);
 
@@ -81,5 +86,12 @@ public class FeedFragment extends Fragment
     @Override
     public void updated() {
         Snackbar.make(binding.getRoot(), "Loaded", Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void updated(String error) {
+        binding.tvEmpty.setText(error + "\nPull to refresh.");
+        Snackbar.make(binding.getRoot(), "Error", Snackbar.LENGTH_SHORT).show();
+
     }
 }

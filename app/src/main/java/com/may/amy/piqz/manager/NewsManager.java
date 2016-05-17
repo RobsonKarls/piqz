@@ -121,7 +121,9 @@ public class NewsManager {
         @Override
         public void onFailure(Call<NewsResponse> call, Throwable t) {
             Log.e(NewsManager.class.getSimpleName(), "Response failed: " + t.getMessage());
-            dataReceivedInterface.updateData(new RResponse());
+            RResponse errorResponse = new RResponse();
+            errorResponse.setError(t.getMessage());
+            dataReceivedInterface.updateData(errorResponse);
         }
     };
 
@@ -135,7 +137,9 @@ public class NewsManager {
                     getMulti("666", AppUtil.getInstance().getAppPreferences().getString(KaC.KEY_AFTER, ""), "10");
                 }else{
                     //TODO: Show error
-                    dataReceivedInterface.updateData(new RResponse());
+                    RResponse errorResponse = new RResponse();
+                    errorResponse.setError(String.valueOf(response.code()));
+                    dataReceivedInterface.updateData(errorResponse);
                 }
 
                 break;
@@ -155,7 +159,7 @@ public class NewsManager {
         }
         //This is a gallery. It needs extra handling, TODO: maybe a ViewHandler with Horizontal scrolling?
         else if (item.getPostHint() != null && (item.getPostHint().equals("link") || item.getPostHint().equals("rich:video"))
-                && (item.getUrl().contains("imgur.com/gallery") || item.getUrl().contains("/a/"))) {
+                || (item.getUrl().contains("imgur.com/gallery") || item.getUrl().contains("imgur.com/a/"))) {
             item.setPostType(KaC.TYPE_GALLERY);
         }
         //if link is an imgur link
