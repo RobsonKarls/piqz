@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="ad_banner_array">
+        <item name="ad_banner_rv_0">ca-app-pub-3271520482495912/4168433789</item>
+        <item name="ad_banner_rv_1">ca-app-pub-3271520482495912/5446690581</item>
+        <item name="ad_banner_rv_2">ca-app-pub-3271520482495912/4829411784</item>
+        <item name="ad_banner_rv_3">ca-app-pub-3271520482495912/6306144986</item>
+        <item name="ad_banner_rv_4"> ca-app-pub-3271520482495912/7782878181</item>
+    </string-array>
+
+
+    <string name="ad_banner_rv"> ca-app-pub-3271520482495912/7782878181</string>
+</resources>
