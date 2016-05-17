@@ -94,12 +94,12 @@ public class PostListViewModel implements DataReceivedInterface {
     }
 
     @BindingAdapter({"htmlText"})
-    public static void convertAndSetText(TextView textView, String htmlString) {
+    public static void convertAndSetText(TextView textView, NewsItem post) {
         try {
-            textView.setText(Html.fromHtml(htmlString).toString());
+            textView.setText(Html.fromHtml(post.getHtmlSelftext()).toString());
         } catch (Exception e) {
             Log.d("BindingAdapterHtmlText", "html Text was null");
-            textView.setText("");
+            textView.setText("Post Type: " + post.getPostType());
         }
     }
 

@@ -28,6 +28,7 @@
 
             <TextView
                 android:id="@+id/tv_title"
+                android:textColor="@color/colorTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -38,11 +39,8 @@
 
             <ImageView
                 android:id="@+id/iv_post_image"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+                style="@style/PostImageCardView"
                 android:layout_below="@+id/tv_title"
-                android:layout_margin="5dp"
-                android:scaleType="fitCenter"
                 app:imageUrl="@{viewModel.post.url}" />
 
             <View

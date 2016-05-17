@@ -33,6 +33,7 @@
                 android:layout_alignParentTop="true"
                 android:drawableBottom="@drawable/line_horizontal"
                 android:padding="20dp"
+                android:textColor="@color/colorTitle"
                 android:text="@{viewModel.post.title, default=Titel}"
                 android:textSize="18sp" />
 
@@ -42,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_title"
                 android:layout_margin="5dp"
-                app:htmlText="@{viewModel.post.htmlSelftext}"/>
+                app:htmlText="@{viewModel.post}"/>
 
             <View
                 android:id="@+id/divider_bottom"

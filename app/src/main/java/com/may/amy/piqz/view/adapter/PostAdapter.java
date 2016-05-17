@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.may.amy.piqz.databinding.BannerAdBinding;
 import com.may.amy.piqz.databinding.NativeAdBinding;
 import com.may.amy.piqz.databinding.PostGalleryBinding;
 import com.may.amy.piqz.databinding.PostImageBinding;
@@ -40,7 +41,7 @@ public class PostAdapter extends RecyclerView.Adapter<BaseVH> {
             case KaC.TYPE_GALLERY:
                 return new GalleryVH(PostGalleryBinding.inflate(inflater, parent, false));
             case KaC.TYPE_AD:
-                return new AdVH(NativeAdBinding.inflate(inflater, parent, false));
+                return new AdVH(BannerAdBinding.inflate(inflater, parent, false));
             case KaC.TYPE_GENERIC:
             default:
                 return new TextPostVH(PostTextBinding.inflate(inflater, parent, false));

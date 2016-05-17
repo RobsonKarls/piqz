@@ -10,7 +10,7 @@ import com.may.amy.piqz.util.PrivateConstants;
  */
 public class AdVH extends BaseVH {
 
-   BannerAdBinding binding;
+  private BannerAdBinding binding;
     public AdVH(BannerAdBinding mBinding) {
         super(mBinding);
         this.binding = mBinding;
