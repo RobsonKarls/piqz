@@ -1,5 +1,6 @@
 package com.may.amy.piqz.viewmodel;
 
+import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
@@ -12,6 +13,7 @@ import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -24,7 +26,9 @@ import com.may.amy.piqz.manager.NewsManager;
 import com.may.amy.piqz.model.NewsItem;
 import com.may.amy.piqz.model.RResponse;
 import com.may.amy.piqz.model.DataReceivedInterface;
+import com.may.amy.piqz.view.activity.MainActivity;
 import com.may.amy.piqz.view.adapter.PostAdapter;
+import com.may.amy.piqz.view.fragment.DetailFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +37,8 @@ import java.util.List;
  * ViewModel for a single post.
  */
 public class PostListViewModel implements DataReceivedInterface {
+    private final static String TAG = PostItemViewModel.class.getSimpleName();
+
     private final NewsManager mNewsManager;
     private final String token;
     private String after;
@@ -47,7 +53,7 @@ public class PostListViewModel implements DataReceivedInterface {
     public static void loadImage(final ImageView imageView, final String imageUrl) {
         if (!imageUrl.endsWith("gif")) {
             Glide.with(imageView.getContext()).load(imageUrl)
-                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     //TODO: Remove for release
                     .listener(new RequestListener<String, GlideDrawable>() {
                         @Override
@@ -62,6 +68,7 @@ public class PostListViewModel implements DataReceivedInterface {
                             return false;
                         }
                     })
+                    .crossFade()
                     .placeholder(R.drawable.ic_sync_black_48dp)
                     .error(R.drawable.ic_sync_problem_black_48dp)
                     .into(imageView);
@@ -100,7 +107,20 @@ public class PostListViewModel implements DataReceivedInterface {
             textView.setText("Post Type: " + post.getPostType());
         }
     }
+    @BindingAdapter({"showDetails"})
+    public static void showPostDetails(final LinearLayout layout, final PostItemViewModel itemViewModel) {
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Context context = layout.getContext();
+                MainActivity activity = ((MainActivity) context);
+                DetailFragment frag = new DetailFragment();
+                frag.setNewsItem(itemViewModel);
+                activity.addFragment(frag);
+            }
+        });
 
+    }
     /*
     *  CONSTRUCTORS:
     * */

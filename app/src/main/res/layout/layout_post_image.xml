@@ -25,30 +25,38 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/tv_title"
-                android:textColor="@color/colorTitle"
+            <LinearLayout
+                android:id="@+id/ll_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:drawableBottom="@drawable/line_horizontal"
-                android:padding="20dp"
-                android:text="@{viewModel.post.title, default=Titel}"
-                android:textSize="18sp" />
+                android:orientation="vertical"
+                app:showDetails="@{viewModel}">
 
-            <ImageView
-                android:id="@+id/iv_post_image"
-                style="@style/PostImageView"
-                android:layout_below="@+id/tv_title"
-                android:contentDescription="@{viewModel.post.title, default=Titel}"
-                app:imageUrl="@{viewModel.post.url}" />
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:textColor="@color/colorTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableBottom="@drawable/line_horizontal"
+                    android:padding="20dp"
+                    android:text="@{viewModel.post.title, default=Titel}"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/iv_post_image"
+                    style="@style/PostImageView"
+                    android:contentDescription="@{viewModel.post.title, default=Titel}"
+                    app:imageUrl="@{viewModel.post.url}" />
+            </LinearLayout
+>
+
 
             <View
                 android:id="@+id/divider_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@drawable/line_horizontal"
-                android:layout_below="@+id/iv_post_image"/>
+                android:layout_below="@+id/ll_content"/>
 
             <!-- Bottom row -->
             <LinearLayout

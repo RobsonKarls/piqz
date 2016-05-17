@@ -3,6 +3,7 @@ package com.may.amy.piqz.view.activity;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -35,13 +36,24 @@ public class MainActivity extends AppCompatActivity {
 
         mFeedFragment = new FeedFragment();
         AppUtil.getInstance().getOAuthApi().refreshTokenIfExpired();
-        replaceFragment();
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container_main, mFeedFragment).commit();
 
     }
 
-    private void replaceFragment() {
+    public void addFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container_main, mFeedFragment).commit();
+                .add(R.id.container_main, fragment)
+                .hide(mFeedFragment)
+                .addToBackStack(null).commit();
+
+    }
+    public void removeFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .remove(fragment)
+                .show(mFeedFragment)
+                .addToBackStack(null).commit();
 
     }
 }
