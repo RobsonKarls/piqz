@@ -39,9 +39,6 @@ public class MainActivity extends AppCompatActivity {
         AppUtil.getInstance().getOAuthApi().refreshTokenIfExpired();
         replaceFragment();
         binding.tvLoading.setVisibility(View.GONE);
-
-
-
     }
 
     private void replaceFragment() {
