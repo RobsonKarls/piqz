@@ -8,4 +8,5 @@ This is a *educational* project using:
   - Glide for image loading
   - DataBinding
   - MVVM Pattern
+  - AdMob
   
