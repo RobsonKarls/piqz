@@ -80,6 +80,13 @@ public class NewsManager {
                 ArrayList<NewsItem> news = new ArrayList<>();
                 for (ChildrenResponse childrenResponse : response.body().getData().getChildren()) {
                     NewsItem item = childrenResponse.getData();
+                    //Add ad every ten items
+                    if(news.size() % 10 == 0){
+                        NewsItem adItem = new NewsItem();
+                        adItem.setPostType(KaC.TYPE_AD);
+                        adItem.setTitle("Advertising");
+                        news.add(adItem);
+                    }
                     if (item.getAuthor() != null && !item.isNsfw()) {
                         item = formatItem(item);
                         Log.d(TAG, "Title: " + item.getTitle() +

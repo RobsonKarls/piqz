@@ -5,10 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.may.amy.piqz.databinding.NativeAdBinding;
 import com.may.amy.piqz.databinding.PostGalleryBinding;
 import com.may.amy.piqz.databinding.PostImageBinding;
 import com.may.amy.piqz.databinding.PostTextBinding;
 import com.may.amy.piqz.model.NewsItem;
+import com.may.amy.piqz.model.holder.AdVH;
 import com.may.amy.piqz.model.holder.BaseVH;
 import com.may.amy.piqz.model.holder.GalleryVH;
 import com.may.amy.piqz.model.holder.ImagePostVH;
@@ -35,9 +37,10 @@ public class PostAdapter extends RecyclerView.Adapter<BaseVH> {
                 return new ImagePostVH(PostImageBinding.inflate(inflater, parent, false));
             case KaC.TYPE_SELF:
                 return new TextPostVH(PostTextBinding.inflate(inflater, parent, false));
-
             case KaC.TYPE_GALLERY:
                 return new GalleryVH(PostGalleryBinding.inflate(inflater, parent, false));
+            case KaC.TYPE_AD:
+                return new AdVH(NativeAdBinding.inflate(inflater, parent, false));
             case KaC.TYPE_GENERIC:
             default:
                 return new TextPostVH(PostTextBinding.inflate(inflater, parent, false));
@@ -47,7 +50,13 @@ public class PostAdapter extends RecyclerView.Adapter<BaseVH> {
 
     @Override
     public void onBindViewHolder(final BaseVH holder, final int position) {
-        holder.displayPost(mPosts.get(position));
+        if (holder instanceof AdVH){
+            holder.displayPost(mPosts.get(position));
+            ((AdVH) holder).displayAd();
+        }else{
+            holder.displayPost(mPosts.get(position));
+        }
+
     }
 
     @Override

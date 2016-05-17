@@ -1,8 +1,7 @@
 <resources>
     <string name="app_name">Piqz</string>
 
-
     <string name="action_settings">Settings</string>
 
-
+    <string name="ad_banner_rv_test">ca-app-pub-3940256099942544/6300978111</string>
 </resources>

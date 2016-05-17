@@ -24,4 +24,5 @@ public class KaC {
     public static final int TYPE_SELF = 3; //Text type, like a joke
     public static final int TYPE_YOUTUBE = 4; //link to a youtube video, show preview, onclick opens yt
     public static final int TYPE_GALLERY = 5; //gallery
+    public static final int TYPE_AD = 6; //gallery
 }

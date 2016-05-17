@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data class="NativeAdBinding">
+
+        <import type="com.may.amy.piqz.viewmodel.PostItemViewModel" />
+
+        <variable
+            name="viewModel"
+            type="PostItemViewModel" />
+
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="320dp"
+        android:layout_height="50dp"
+        android:layout_margin="5dp"
+        card_view:cardCornerRadius="3dp"
+        card_view:cardElevation="4dp"
+        card_view:cardUseCompatPadding="true">
+
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/ad_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:adSize="BANNER"
+            app:adUnitId="@string/ad_banner_rv_test"/>
+    </android.support.v7.widget.CardView>
+
+
+</layout>
+
+    <!--  <com.google.android.gms.ads.formats.NativeContentAdView
+               android:layout_width="match_parent"
+               android:layout_height="match_parent">
+
+               <TextView
+                   android:id="@+id/tv_title"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentTop="true"
+                   android:drawableBottom="@drawable/line_horizontal"
+                   android:padding="20dp"
+                   android:text="@{viewModel.post.title, default=Titel}"
+                   android:textSize="18sp" />
+
+               <ImageView
+                   android:id="@+id/iv_post_image"
+                   android:layout_width="match_parent"
+                   android:layout_height="50dp"
+                   android:layout_below="@+id/tv_title"
+                   android:layout_margin="5dp"
+                   android:scaleType="fitCenter"
+                   app:imageUrl="@{viewModel.post.url}" />
+
+           </com.google.android.gms.ads.formats.NativeContentAdView>
+
+   -->
