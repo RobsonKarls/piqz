@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/vd_points">
+    <target
+        android:name="group_points_left"
+        android:animation="@animator/bounce"
+        />
+    <target
+        android:name="group_points_middle"
+        android:animation="@animator/bounce2"
+        />
+    <target
+        android:name="group_points_right"
+        android:animation="@animator/bounce3"
+        />
+</animated-vector>

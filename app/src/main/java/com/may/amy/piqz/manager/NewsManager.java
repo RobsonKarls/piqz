@@ -80,8 +80,8 @@ public class NewsManager {
                 ArrayList<NewsItem> news = new ArrayList<>();
                 for (ChildrenResponse childrenResponse : response.body().getData().getChildren()) {
                     NewsItem item = childrenResponse.getData();
-                    //Add ad every ten items
-                    if(news.size() % 10 == 0){
+                    //Add ad every ten items - TODO: // FIXME: 30.05.2016 
+                    if (news.size() % 10 == 0 && news.size() != 0) {
                         NewsItem adItem = new NewsItem();
                         adItem.setPostType(KaC.TYPE_AD);
                         adItem.setTitle("Advertising");
@@ -112,8 +112,7 @@ public class NewsManager {
 
             } else {
                 Log.e(TAG, "Response not successful:\n" +
-                        (response.errorBody() != null ? response.errorBody().toString() : "Errorbody is null") +
-                        "\nError code: " + response.code());
+                        "Error code: " + response.code());
                 onError(call, response);
             }
         }
@@ -135,9 +134,9 @@ public class NewsManager {
                 if (AppUtil.getInstance().getRefreshTryCount() < 3) {
                     AppUtil.getInstance().updateRefreshTryCount();
                     getMulti("666", AppUtil.getInstance().getAppPreferences().getString(KaC.KEY_AFTER, ""), "10");
-                }else{
-                    //TODO: Show error
+                } else {
                     RResponse errorResponse = new RResponse();
+                    AppUtil.getInstance().setRefreshTryCount(0);
                     errorResponse.setError(String.valueOf(response.code()));
                     dataReceivedInterface.updateData(errorResponse);
                 }
@@ -182,11 +181,15 @@ public class NewsManager {
         //link is self post
         else if (item.getDomain().contains("self")) {
             item.setPostType(KaC.TYPE_SELF);
-        }
-        else if(item.getPostHint() != null && item.getPostHint().equals("link")){
+        } else if (item.getPostHint() != null && item.getPostHint().equals("link")) {
             item.setPostType(KaC.TYPE_LINK);
         }
 
+        //handle reddituploads url
+        if (item.getUrl().contains("i.reddituploads")) {
+            String url = item.getUrl();
+
+        }
         return item;
     }
 

@@ -9,4 +9,9 @@
     <dimen name="card_elevation">3dp</dimen>
     <dimen name="card_margin">3dp</dimen>
     <dimen name="card_corner_radius">3dp</dimen>
+
+
+
+    <dimen name="layout_title_height">94dp</dimen>
+    <dimen name="layout_image_minHeight">200dp</dimen>
 </resources>

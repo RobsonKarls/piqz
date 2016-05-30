@@ -20,7 +20,8 @@
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fitsSystemWindows="true">
+            android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|enterAlways">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -32,7 +33,6 @@
                 android:title="@string/app_name"
                 app:layout_scrollFlags="scroll|enterAlways"/>
         </android.support.design.widget.AppBarLayout>
-
 
         <TextView
             android:id="@+id/tv_empty"

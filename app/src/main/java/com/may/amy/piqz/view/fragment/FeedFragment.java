@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -50,7 +51,6 @@ public class FeedFragment extends Fragment
         mViewModel = new PostListViewModel(true, this);
         binding.setViewModel(mViewModel);
 
-
         ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbar);
         binding.toolbar.setTitle(R.string.app_name);
 
@@ -61,6 +61,7 @@ public class FeedFragment extends Fragment
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         binding.recyclerView.clearOnScrollListeners();
         binding.recyclerView.addOnScrollListener(new InfinteScrollListener((LinearLayoutManager) binding.recyclerView.getLayoutManager(), this));
+
     }
 
     @Override
@@ -91,7 +92,7 @@ public class FeedFragment extends Fragment
     @Override
     public void updated(String error) {
         binding.tvEmpty.setText(error + "\nPull to refresh.");
-        Snackbar.make(binding.getRoot(), "Error", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(binding.getRoot(), "Error " + error, Snackbar.LENGTH_SHORT).show();
 
     }
 }

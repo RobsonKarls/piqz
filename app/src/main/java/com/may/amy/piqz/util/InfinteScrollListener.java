@@ -1,5 +1,6 @@
 package com.may.amy.piqz.util;
 
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,10 +11,12 @@ import android.util.Log;
 public class InfinteScrollListener extends RecyclerView.OnScrollListener {
     private LinearLayoutManager layoutManager;
     private LoadInterface loadInterface;
+    private Handler h;
 
     public InfinteScrollListener(LinearLayoutManager layoutManager, LoadInterface loadInterface) {
         this.layoutManager = layoutManager;
         this.loadInterface = loadInterface;
+        h = new Handler();
 
     }
 
@@ -39,6 +42,12 @@ public class InfinteScrollListener extends RecyclerView.OnScrollListener {
                 Log.i("InifinteScrollListener", "End reached");
                 loadInterface.loadItems();
                 loading = true;
+                h.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loading = false;
+                    }
+                }, 10 * 1000);
             }
         }
     }

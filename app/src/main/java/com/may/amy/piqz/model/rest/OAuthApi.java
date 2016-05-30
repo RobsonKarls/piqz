@@ -84,7 +84,7 @@ public class OAuthApi {
     Callback<AuthResponseBody> responseCallback = new Callback<AuthResponseBody>() {
         @Override
         public void onResponse(Call<AuthResponseBody> call, retrofit2.Response<AuthResponseBody> response) {
-            Log.d(TAG, "onResponse - Call: " + call.toString() + "\nResponse: " + response.raw().toString());
+            Log.d(TAG, "Response: " + response.raw().toString());
             if (response.isSuccessful()) {
                 if (response.body().getAccessToken() == null && response.errorBody() != null) {
                     Log.d(TAG, response.errorBody().toString());

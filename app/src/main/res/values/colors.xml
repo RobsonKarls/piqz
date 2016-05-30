@@ -5,6 +5,7 @@
     <color name="colorAccent">#F3A712</color>
 
 
-    <color name="colorTitle">#878787</color>
+    <color name="colorTitle">#2e2e2e</color>
     <color name="colorTitleLink">@color/colorPrimary</color>
+    <color name="colorDivider">#e3e3e3</color>
 </resources>

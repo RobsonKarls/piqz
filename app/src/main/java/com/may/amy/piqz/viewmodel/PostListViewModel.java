@@ -1,12 +1,16 @@
 package com.may.amy.piqz.viewmodel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableInt;
 import android.databinding.ObservableList;
+import android.graphics.drawable.AnimatedVectorDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -18,9 +22,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.target.ViewTarget;
 import com.may.amy.piqz.R;
 import com.may.amy.piqz.manager.NewsManager;
 import com.may.amy.piqz.model.NewsItem;
@@ -49,29 +56,31 @@ public class PostListViewModel implements DataReceivedInterface {
     private final ObservableInt mEmptyViewVisibility = new ObservableInt(View.GONE);
     private final ObservableBoolean mSwipeRefreshLayoutRefreshing = new ObservableBoolean();
 
+
     @BindingAdapter({"imageUrl"})
     public static void loadImage(final ImageView imageView, final String imageUrl) {
+        AnimatedVectorDrawableCompat avd = AnimatedVectorDrawableCompat.create(imageView.getContext(), R.drawable.avd_points_bounce);
+        imageView.setImageDrawable(avd);
+        if (imageView.getDrawable() instanceof AnimatedVectorDrawableCompat) {
+            ((AnimatedVectorDrawableCompat) imageView.getDrawable()).start();
+        }
         if (!imageUrl.endsWith("gif")) {
-            Glide.with(imageView.getContext()).load(imageUrl)
+            ViewTarget<ImageView, GlideDrawable> viewTarget = new ViewTarget<ImageView, GlideDrawable>(imageView) {
+                @Override
+                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                    this.view.setImageDrawable(resource.getCurrent());
+                    if (resource.getCurrent() instanceof AnimatedVectorDrawableCompat) {
+                        ((AnimatedVectorDrawableCompat) resource.getCurrent()).start();
+                    }
+                }
+            };
+            Glide.with(imageView.getContext())
+                    .load(imageUrl)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    //TODO: Remove for release
-                    .listener(new RequestListener<String, GlideDrawable>() {
-                        @Override
-                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                            if (e != null) e.printStackTrace();
-                            else Log.e("GLIDE", "Exception was null");
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                            return false;
-                        }
-                    })
                     .crossFade()
-                    .placeholder(R.drawable.ic_sync_black_48dp)
-                    .error(R.drawable.ic_sync_problem_black_48dp)
-                    .into(imageView);
+                    .placeholder(avd)
+                    //  .error(R.drawable.ic_sync_problem_black_48dp)
+                    .into(viewTarget);
 
         } else {
             //TODO: Make this as Bitmap with watermark/overlay "play"
@@ -104,9 +113,10 @@ public class PostListViewModel implements DataReceivedInterface {
             textView.setText(Html.fromHtml(post.getHtmlSelftext()).toString());
         } catch (Exception e) {
             Log.d("BindingAdapterHtmlText", "html Text was null");
-            textView.setText("Post Type: " + post.getPostType());
+            textView.setVisibility(View.GONE);
         }
     }
+
     @BindingAdapter({"showDetails"})
     public static void showPostDetails(final LinearLayout layout, final PostItemViewModel itemViewModel) {
         layout.setOnClickListener(new View.OnClickListener() {
@@ -114,25 +124,28 @@ public class PostListViewModel implements DataReceivedInterface {
             public void onClick(View v) {
                 final Context context = layout.getContext();
                 MainActivity activity = ((MainActivity) context);
-                DetailFragment frag = new DetailFragment();
-                frag.setNewsItem(itemViewModel);
-                activity.addFragment(frag);
+                if (itemViewModel.getPost().get().getPostType() == 1) { //image
+                    DetailFragment frag = new DetailFragment();
+                    frag.setNewsItem(itemViewModel);
+                    activity.addFragment(frag);
+                } else {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(itemViewModel.getPost().get().getUrl()));
+                    context.startActivity(browserIntent);
+                }
+
             }
         });
+    }
 
+    @BindingAdapter({"visible"})
+    public static void showDivider(View view, PostItemViewModel viewModel) {
+        if (viewModel.getPost().get().getHtmlSelftext() == null || viewModel.getPost().get().getHtmlSelftext().isEmpty()) {
+            view.setVisibility(View.GONE);
+        } else {
+            view.setVisibility(View.VISIBLE);
+        }
     }
-    /*
-    *  CONSTRUCTORS:
-    * */
-    public PostListViewModel(boolean auth, NotifyFragmentInterface notifyFragmentInterface) {
-        this(auth, "", notifyFragmentInterface);
-    }
-    public PostListViewModel(boolean auth, String token, NotifyFragmentInterface notifyFragmentInterface) {
-        mNewsManager = new NewsManager(this, auth, token);
-        this.token = token;
-        this.notifyFragmentInterface = notifyFragmentInterface;
 
-    }
 
     public ObservableBoolean getSwipeRefreshLayoutRefreshing() {
         return mSwipeRefreshLayoutRefreshing;
@@ -148,6 +161,20 @@ public class PostListViewModel implements DataReceivedInterface {
 
     public void onRefresh(boolean refreshTop) {
         loadNewsFeed(refreshTop);
+    }
+
+    /*
+        *  CONSTRUCTORS:
+        * */
+    public PostListViewModel(boolean auth, NotifyFragmentInterface notifyFragmentInterface) {
+        this(auth, "", notifyFragmentInterface);
+    }
+
+    public PostListViewModel(boolean auth, String token, NotifyFragmentInterface notifyFragmentInterface) {
+        mNewsManager = new NewsManager(this, auth, token);
+        this.token = token;
+        this.notifyFragmentInterface = notifyFragmentInterface;
+
     }
 
     private void loadNewsFeed(final boolean refreshTop) {
@@ -178,10 +205,11 @@ public class PostListViewModel implements DataReceivedInterface {
             posts = new ArrayList<>();
         }
         if (posts.isEmpty()) {
-           // mPosts.clear();
-           // mEmptyViewVisibility.set(View.VISIBLE);
+            // mPosts.clear();
+            // mEmptyViewVisibility.set(View.VISIBLE);
             String error = rResponse.getError() != null ? rResponse.getError() : "Pull to refresh";
             notifyFragmentInterface.updated(error);
+            if (mPosts.isEmpty()) mEmptyViewVisibility.set(View.VISIBLE);
         } else {
             mEmptyViewVisibility.set(View.GONE);
             mPosts.addAll(posts);
@@ -191,6 +219,7 @@ public class PostListViewModel implements DataReceivedInterface {
 
     public interface NotifyFragmentInterface {
         void updated();
+
         void updated(String error);
     }
 }

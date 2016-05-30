@@ -29,33 +29,35 @@
                 android:id="@+id/ll_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:divider="@color/colorAccent"
                 android:orientation="vertical"
                 app:showDetails="@{viewModel}">
 
                 <TextView
                     android:id="@+id/tv_title"
-                    android:textColor="@color/colorTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableBottom="@drawable/line_horizontal"
-                    android:padding="20dp"
+                    android:padding="10dp"
                     android:text="@{viewModel.post.title, default=Titel}"
+                    android:textColor="@color/colorTitle"
                     android:textSize="18sp" />
+
+                <include layout="@layout/divider" />
 
                 <ImageView
                     android:id="@+id/iv_post_image"
                     style="@style/PostImageView"
                     android:contentDescription="@{viewModel.post.title, default=Titel}"
                     app:imageUrl="@{viewModel.post.url}" />
-            </LinearLayout
->
 
+                <include layout="@layout/divider" />
+            </LinearLayout>
 
             <View
+                style="@style/Divider"
                 android:id="@+id/divider_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@drawable/line_horizontal"
                 android:layout_below="@+id/ll_content"/>
 
             <!-- Bottom row -->
@@ -77,23 +79,23 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:text="@{String.valueOf(viewModel.post.score), default=666}" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:contentDescription="@{viewModel.post.title}"
                     android:layout_margin="3dp"
+                    android:contentDescription="@{viewModel.post.title}"
                     app:srcCompat="@drawable/vd_short_text" />
 
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:text="@{String.valueOf(viewModel.post.numComments), default=666}" />
 
