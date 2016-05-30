@@ -16,6 +16,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.may.amy.piqz.R;
 import com.may.amy.piqz.databinding.FeedFragmentBinding;
@@ -53,6 +54,9 @@ public class FeedFragment extends Fragment
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbar);
         binding.toolbar.setTitle(R.string.app_name);
+        ImageView loadImage = new ImageView(getActivity());
+        loadImage.setImageDrawable(AnimatedVectorDrawableCompat.create(getActivity(), R.drawable.avd_load));
+        //TODO
 
         binding.swipeLayout.setColorSchemeResources(R.color.colorAccent);
         binding.swipeLayout.setOnRefreshListener(this);

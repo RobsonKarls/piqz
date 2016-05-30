@@ -3,10 +3,10 @@
     android:ordering="sequentially">
     <objectAnimator
         android:duration="750"
-        android:repeatMode="reverse"
-        android:repeatCount="infinite"
-        android:interpolator="@android:interpolator/accelerate_quad"
+        android:interpolator="@android:interpolator/accelerate_cubic"
         android:propertyName="translateY"
+        android:repeatCount="infinite"
+        android:repeatMode="reverse"
         android:valueFrom="0"
         android:valueTo="50" />
 </set>
