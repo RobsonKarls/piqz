@@ -4,12 +4,14 @@ package com.may.amy.piqz.view.fragment;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +55,12 @@ public class FeedFragment extends Fragment
         binding.toolbar.setTitle(R.string.app_name);
         ImageView loadImage = new ImageView(getActivity());
         loadImage.setImageDrawable(AnimatedVectorDrawableCompat.create(getActivity(), R.drawable.avd_load));
+        AppBarLayout.LayoutParams lp = new AppBarLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        loadImage.setPadding(10, 10, 10, 10);
+        lp.gravity = Gravity.RIGHT;
+        binding.toolbar.addView(loadImage, lp);
 
+        ((AnimatedVectorDrawableCompat) binding.tvEmpty.getDrawable()).start();
         binding.swipeLayout.setColorSchemeResources(R.color.colorAccent);
         binding.swipeLayout.setOnRefreshListener(this);
 
@@ -91,7 +98,7 @@ public class FeedFragment extends Fragment
 
     @Override
     public void updated(String error) {
-        binding.tvEmpty.setText(R.string.tv_empty_pull_refresh);
+
         Snackbar.make(binding.getRoot(), getActivity().getString(R.string.snackbar_error) + error,
                 Snackbar.LENGTH_SHORT).show();
     }

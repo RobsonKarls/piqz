@@ -34,14 +34,11 @@
                 app:layout_scrollFlags="scroll|enterAlways"/>
         </android.support.design.widget.AppBarLayout>
 
-        <TextView
+        <ImageView
             android:id="@+id/tv_empty"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/feed_empty_text"
-            android:textColor="@color/colorTitle"
-            android:textSize="36sp"
+            app:srcCompat="@drawable/avd_points_bounce"
             android:visibility="@{viewModel.emptyViewVisibility}" />
 
         <android.support.v4.widget.SwipeRefreshLayout

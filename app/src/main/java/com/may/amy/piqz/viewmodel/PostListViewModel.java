@@ -53,7 +53,7 @@ public class PostListViewModel implements DataReceivedInterface {
 
 
     private final ObservableList<NewsItem> mPosts = new ObservableArrayList<>();
-    private final ObservableInt mEmptyViewVisibility = new ObservableInt(View.GONE);
+    private final ObservableInt mEmptyViewVisibility = new ObservableInt(View.VISIBLE);
     private final ObservableBoolean mSwipeRefreshLayoutRefreshing = new ObservableBoolean();
 
 
@@ -209,7 +209,9 @@ public class PostListViewModel implements DataReceivedInterface {
             // mEmptyViewVisibility.set(View.VISIBLE);
             String error = rResponse.getError() != null ? rResponse.getError() : "Pull to refresh";
             notifyFragmentInterface.updated(error);
-            if (mPosts.isEmpty()) mEmptyViewVisibility.set(View.VISIBLE);
+            if (mPosts.isEmpty()){
+                mEmptyViewVisibility.set(View.VISIBLE);
+            }
         } else {
             mEmptyViewVisibility.set(View.GONE);
             mPosts.addAll(posts);

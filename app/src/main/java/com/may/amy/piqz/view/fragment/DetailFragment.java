@@ -7,11 +7,8 @@ import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +16,6 @@ import android.widget.ImageView;
 
 import com.may.amy.piqz.R;
 import com.may.amy.piqz.databinding.DetailFragmentBinding;
-import com.may.amy.piqz.model.NewsItem;
 import com.may.amy.piqz.util.KaC;
 import com.may.amy.piqz.view.activity.MainActivity;
 import com.may.amy.piqz.viewmodel.PostItemViewModel;
@@ -181,5 +177,4 @@ public class DetailFragment extends Fragment implements View.OnTouchListener {
         float y = event.getY(0) + event.getY(1);
         point.set(x / 2, y / 2);
     }
-
 }
