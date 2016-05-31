@@ -36,7 +36,9 @@
                 <TextView
                     android:id="@+id/tv_title"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:padding="10dp"
                     android:text="@{viewModel.post.title, default=Titel}"
                     android:textColor="@color/colorTitle"

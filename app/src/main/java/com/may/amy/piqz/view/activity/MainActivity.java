@@ -32,8 +32,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-
-
         mFeedFragment = new FeedFragment();
         AppUtil.getInstance().getOAuthApi().refreshTokenIfExpired();
 

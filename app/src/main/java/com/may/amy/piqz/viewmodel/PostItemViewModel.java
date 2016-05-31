@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import com.may.amy.piqz.model.NewsItem;
 
 
-public class PostItemViewModel{
+public class PostItemViewModel {
     private static final String TAG = PostItemViewModel.class.getSimpleName();
 
     private final ObservableField<NewsItem> mPost = new ObservableField<>();
@@ -27,6 +27,9 @@ public class PostItemViewModel{
 
     }
 
-
+    @BindingAdapter({"backClick"})
+    public static void onBackClick(View iv, PostItemViewModel vm) {
+        Log.d(TAG, "Context: " + iv.getContext().getClass().getSimpleName());
+    }
 
 }

@@ -26,7 +26,10 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
             android:title="@{viewModel.post.title, default=Title}"
-            app:titleTextColor="#FFF" />
+            app:titleTextColor="#FFF"
+            app:backClick="@{viewModel}" >
+
+        </android.support.v7.widget.Toolbar>
 
         <WebView
             android:id="@+id/wb_single_post"

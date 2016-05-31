@@ -83,13 +83,12 @@ public class PostListViewModel implements DataReceivedInterface {
                     .into(viewTarget);
 
         } else {
-            //TODO: Make this as Bitmap with watermark/overlay "play"
-            Glide.with(imageView.getContext())
-                    .load(imageUrl).asGif()
-                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                    .placeholder(R.drawable.ic_sync_black_48dp)
-                    .error(R.drawable.ic_sync_problem_black_48dp)
-                    .into(imageView);
+          //  Glide.with(imageView.getContext())
+          //          .load(imageUrl).asGif()
+          //          .diskCacheStrategy(DiskCacheStrategy.RESULT)
+          //          .placeholder(R.drawable.ic_sync_black_48dp)
+          //          .error(R.drawable.ic_sync_problem_black_48dp)
+          //          .into(imageView);
         }
     }
 
@@ -119,6 +118,7 @@ public class PostListViewModel implements DataReceivedInterface {
 
     @BindingAdapter({"showDetails"})
     public static void showPostDetails(final LinearLayout layout, final PostItemViewModel itemViewModel) {
+        Log.d(TAG, "Context: " + layout.getContext().getClass().getSimpleName());
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

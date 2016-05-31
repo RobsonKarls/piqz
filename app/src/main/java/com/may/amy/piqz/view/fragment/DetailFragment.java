@@ -10,6 +10,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,12 +68,19 @@ public class DetailFragment extends Fragment implements View.OnTouchListener {
             ((MainActivity) getActivity()).removeFragment(this);
         }
         binding.setViewModel(mViewModel);
+        binding.toolbarDetail.setNavigationIcon(R.drawable.vd_arrow_back);
+        binding.toolbarDetail.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).removeFragment(DetailFragment.this);
+            }
+        });
+
         if (mViewModel.getPost().get().getPostType() != KaC.TYPE_IMAGE) {
             binding.wbSinglePost.loadUrl(mViewModel.getPost().get().getUrl());
-        }else{
+        } else {
             binding.ivImageLarge.setOnTouchListener(this);
         }
-
     }
 
     public void setNewsItem(PostItemViewModel viewModel) {

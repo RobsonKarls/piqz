@@ -47,7 +47,7 @@ public class InfinteScrollListener extends RecyclerView.OnScrollListener {
                     public void run() {
                         loading = false;
                     }
-                }, 10 * 1000);
+                }, 7 * 1000);
             }
         }
     }

@@ -1,12 +1,6 @@
 package com.may.amy.piqz.model.holder;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.support.v4.content.ContextCompat;
-
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
 import com.may.amy.piqz.R;
 import com.may.amy.piqz.databinding.BannerAdBinding;
 import com.may.amy.piqz.model.NewsItem;

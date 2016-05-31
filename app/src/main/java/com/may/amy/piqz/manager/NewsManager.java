@@ -157,14 +157,14 @@ public class NewsManager {
             item.setPostType(KaC.TYPE_IMAGE);
         }
         //This is a gallery. It needs extra handling, TODO: maybe a ViewHandler with Horizontal scrolling?
-        else if (item.getPostHint() != null && (item.getPostHint().equals("link") || item.getPostHint().equals("rich:video"))
+        else if (item.getPostHint() != null &&  item.getPostHint().equals("rich:video")
                 || (item.getUrl().contains("imgur.com/gallery") || item.getUrl().contains("imgur.com/a/"))) {
             item.setPostType(KaC.TYPE_GALLERY);
         }
         //if link is an imgur link
         else if (item.getPostHint() != null && item.getPostHint().equals("link")
                 && item.getUrl().contains("imgur") && !item.getUrl().contains(".gif")) {
-            item.setUrl(item.getUrl() + ".png");
+            item.setUrl(item.getUrl() + ".jpg");
             item.setPostType(KaC.TYPE_IMAGE);
         }
         //Glide cannot handle .gifv data, change suffix:
@@ -181,14 +181,18 @@ public class NewsManager {
         //link is self post
         else if (item.getDomain().contains("self")) {
             item.setPostType(KaC.TYPE_SELF);
-        } else if (item.getPostHint() != null && item.getPostHint().equals("link")) {
+        }
+        //just a link = generic
+        else if (item.getPostHint() != null && item.getPostHint().equals("link")) {
             item.setPostType(KaC.TYPE_LINK);
         }
 
         //handle reddituploads url
         if (item.getUrl().contains("i.reddituploads")) {
             String url = item.getUrl();
-
+            url = url.replace("amp;", "");
+            item.setUrl(url);
+            item.setPostType(KaC.TYPE_IMAGE);
         }
         return item;
     }
