@@ -201,9 +201,7 @@ public class PostListViewModel implements DataReceivedInterface {
         mSwipeRefreshLayoutRefreshing.set(false);
         mSwipeRefreshLayoutRefreshing.notifyChange();
 
-        if (posts == null) {
-            posts = new ArrayList<>();
-        }
+        
         if (posts.isEmpty()) {
             // mPosts.clear();
             // mEmptyViewVisibility.set(View.VISIBLE);
